@@ -65,25 +65,25 @@ function switchArt(artType, btnElem) {
     }
 }
 
-// Recipe Book Flip Logic with Glowing Highlights
+// Streamlined Recipe Book Flip
 const recipeData = {
     spaghetti: {
-        title: "Aomame's Midnight Spaghetti",
+        title: "Midnight Spaghetti",
         ascii: "🍝",
-        "1984": "Boil a generous amount of water. Drop the spaghetti in only when roaring. Simple, precise, and grounded in reality.",
-        "1q84": "The water takes longer to boil. You keep glancing out at the second green moon while waiting for the exact minute."
+        "1984": "Water boils in roaring silence. Precise, grounded reality.",
+        "1q84": "The water takes longer. You glance out at the <span class='altered-keyword'>second green moon</span>."
     },
     whiskey: {
-        title: "Cutty Sark on the Rocks",
+        title: "Cutty Sark",
         ascii: "🥃",
-        "1984": "A single crystal-clear ice cube clinking against a heavy lowball glass in a standard dimly lit jazz bar.",
-        "1q84": "Poured slowly in the shadows. The ice doesn't melt normally; the drink tastes sharper, carrying an eerie silence."
+        "1984": "A single crystal cube clinking in a dimly lit jazz bar.",
+        "1q84": "Poured in shadows. The ice refuses to melt in this <span class='altered-keyword'>silence</span>."
     },
     sandwich: {
-        title: "Tengo's Toasted Sandwich",
+        title: "Toasted Sandwich",
         ascii: "🥪",
-        "1984": "Two slices of white bread, cheddar, and butter toasted until golden while staring at a blank notebook.",
-        "1q84": "Toasted while a silent, mysterious manuscript lies open on the desk, acting as an anchor to your memories."
+        "1984": "Warm cheese and butter eaten on a peaceful afternoon.",
+        "1q84": "Toasted while a mysterious manuscript lies open."
     }
 };
 
@@ -96,13 +96,7 @@ function openRecipeBook(dishKey) {
 
     document.getElementById('recipe-book-art').textContent = dish.ascii;
     document.getElementById('recipe-book-title').textContent = dish.title;
-    
-    const rawText = isAlternateReality ? dish["1q84"] : dish["1984"];
-    const formattedText = isAlternateReality 
-        ? rawText.replace("second green moon", "<span class='altered-keyword'>second green moon</span>").replace("silence", "<span class='altered-keyword'>silence</span>")
-        : rawText;
-    
-    document.getElementById('recipe-book-desc').innerHTML = formattedText;
+    document.getElementById('recipe-book-desc').innerHTML = isAlternateReality ? dish["1q84"] : dish["1984"];
 }
 
 function closeRecipeBook() {
@@ -111,37 +105,61 @@ function closeRecipeBook() {
 }
 
 const worldQuotes = {
-    "1984": "“In this world, sincerity can sometimes save people, but it can also destroy them.”",
-    "1Q84": "“I think you lost all interest in this world. You were disappointed and discouraged, and lost interest in everything. So you abandoned your physical body. You went to a world apart and you're living a different kind of life there. In a world inside you.”"
+    "1984": "“In this world, sincerity can sometimes save people.”",
+    "1Q84": "“You went to a world apart and you're living a different kind of life there.”"
 };
 
+// Streamlined Bullet-Point Dossiers
 const characters = {
     aomame: {
         name: "Aomame",
-        "1984": "A fitness instructor leading a disciplined, ordinary life on the surface of Tokyo.",
-        "1q84": "An assassin who stepped off an emergency staircase into a realm with two moons and the Little People."
+        "1984": "• Role: Fitness Instructor / Assassin<br>• Status: Navigating ordinary Tokyo streets.",
+        "1q84": "• Role: <span class='altered-keyword'>Assassin</span><br>• Status: Trapped under the <span class='altered-keyword'>dual moons</span>."
     },
     tengo: {
         name: "Tengo Kawana",
-        "1984": "A math teacher grading papers by day, dreaming of writing a real novel.",
-        "1q84": "A ghostwriter pulled into a metaphysical conspiracy surrounding the Air Chrysalis manuscript."
+        "1984": "• Role: Math Teacher / Writer<br>• Status: Grading papers by day.",
+        "1q84": "• Role: Ghostwriter<br>• Status: Rewriting the <span class='altered-keyword'>Air Chrysalis</span>."
     }
 };
 
+let currentCharKey = 'aomame';
+function loadCharacter(charKey) {
+    currentCharKey = charKey;
+    const char = characters[charKey];
+    document.getElementById('char-name').textContent = char.name;
+    document.getElementById('char-desc').innerHTML = isAlternateReality ? char["1q84"] : char["1984"];
+    
+    const imgElem = document.getElementById('char-image');
+    if (charKey === 'aomame') {
+        imgElem.src = 'aomame.png';
+    } else if (charKey === 'tengo') {
+        imgElem.src = 'tengo.png';
+    }
+}
+
+// Tap-to-Reveal Marginalia Quotes
 const marginaliaNotes = {
     soul: {
         "1984": "\"I don't have a thing except my soul.\" — Tengo",
-        "1q84": "\"I don't have a thing except my soul.\" — The only compass left to navigate 1Q84."
+        "1q84": "\"I don't have a thing except my soul.\" — The only compass left."
     },
     fear: {
         "1984": "\"Living as myself scares me more than dying.\"",
-        "1q84": "The quiet terror of realizing your memories of the past are being rewritten."
+        "1q84": "The quiet terror of altered memories."
     },
     confusion: {
-        "1984": "The mundane, predictable haze of everyday urban life in Tokyo.",
-        "1q84": "The state of being blissfully confused where logic breaks down."
+        "1984": "The predictable haze of urban Tokyo.",
+        "1q84": "Where logic breaks down completely."
     }
 };
+
+let currentNoteKey = 'soul';
+function loadNote(noteKey) {
+    currentNoteKey = noteKey;
+    const note = marginaliaNotes[noteKey];
+    document.getElementById('note-text').textContent = isAlternateReality ? note["1q84"] : note["1984"];
+}
 
 // Toast Notification
 function showShiftToast() {
@@ -172,7 +190,6 @@ function toggleWorld() {
     quoteElem.style.opacity = '0';
     showShiftToast();
 
-    // Update active reality status tags across open window headers
     const statusTags = document.querySelectorAll('.world-status-tag');
     statusTags.forEach(tag => {
         tag.textContent = isAlternateReality ? "Active Reality: 1Q84" : "Active Reality: 1984";
@@ -182,7 +199,7 @@ function toggleWorld() {
         if (isAlternateReality) {
             body.classList.remove('world-1984');
             body.classList.add('world-1q84');
-            indicator.textContent = "Mode: 1Q84 (Two Moons / Eerie Glow)";
+            indicator.textContent = "Mode: 1Q84 (Two Moons)";
             shiftBtn.textContent = "Return to 1984";
             quoteElem.textContent = worldQuotes["1Q84"];
             
@@ -193,8 +210,8 @@ function toggleWorld() {
             });
 
             moonIcon.textContent = "🌕🟢";
-            widgetStatus.innerHTML = "<strong>Sky Condition:</strong> Dual <span class='altered-keyword'>moons</span> detected.";
-            widgetHumidity.innerHTML = "<strong>Air Density:</strong> Heavy / Unstable (1.4x)";
+            widgetStatus.innerHTML = "<strong>Sky:</strong> Dual <span class='altered-keyword'>moons</span>.";
+            widgetHumidity.innerHTML = "<strong>Density:</strong> Unstable (1.4x)";
         } else {
             body.classList.remove('world-1q84');
             body.classList.add('world-1984');
@@ -209,8 +226,8 @@ function toggleWorld() {
             });
 
             moonIcon.textContent = "🌕";
-            widgetStatus.innerHTML = "<strong>Sky Condition:</strong> Ordinary dusk over Tokyo.";
-            widgetHumidity.innerHTML = "<strong>Air Density:</strong> Normal (1.0x)";
+            widgetStatus.innerHTML = "<strong>Sky:</strong> Ordinary dusk.";
+            widgetHumidity.innerHTML = "<strong>Density:</strong> Normal (1.0x)";
         }
         quoteElem.style.opacity = '1';
         loadCharacter(currentCharKey);
@@ -218,17 +235,9 @@ function toggleWorld() {
     }, 300);
 }
 
-let currentCharKey = 'aomame';
-function loadCharacter(charKey) {
-    currentCharKey = charKey;
-    const char = characters[charKey];
-    document.getElementById('char-name').textContent = char.name;
-    document.getElementById('char-desc').textContent = isAlternateReality ? char["1q84"] : char["1984"];
-}
-
 const classicalTracks = {
-    sinfonietta: { title: "Leoš Janáček — Sinfonietta", desc: "The majestic brass fanfare that opens the novel, signaling the shift into 1Q84." },
-    goldberg: { title: "Bach — Goldberg Variations", desc: "The looping, meditative keyboard variations grounding lonely urban nights." }
+    sinfonietta: { title: "Leoš Janáček — Sinfonietta", desc: "The majestic brass fanfare opening the novel." },
+    goldberg: { title: "Bach — Goldberg Variations", desc: "Meditative keyboard variations for lonely nights." }
 };
 
 function playClassicalTrack(trackKey) {
@@ -238,22 +247,14 @@ function playClassicalTrack(trackKey) {
 }
 
 const littlePeopleMessages = [
-    "“We are the Little People. We have no weight and cast no shadows.”",
-    "“The air chrysalis is being spun. Do not look too closely at the sky.”",
-    "“A cold finger traces the back of your neck. Only empty highway remains.”",
-    "“We require a receiver. Someone to hold the boundaries in place.”"
+    "“We have no weight and cast no shadows.”",
+    "“The air chrysalis is being spun.”",
+    "“Only empty highway remains.”"
 ];
 let lpIndex = 0;
 function triggerLittlePeople() {
     lpIndex = (lpIndex + 1) % littlePeopleMessages.length;
     document.getElementById('lp-text').textContent = littlePeopleMessages[lpIndex];
-}
-
-let currentNoteKey = 'soul';
-function loadNote(noteKey) {
-    currentNoteKey = noteKey;
-    const note = marginaliaNotes[noteKey];
-    document.getElementById('note-text').textContent = isAlternateReality ? note["1q84"] : note["1984"];
 }
 
 // Note Editor Save
@@ -277,7 +278,7 @@ function pulseChrysalis() {
     const caption = document.getElementById('chrysalis-status');
     spinSpeed = Math.max(0.5, spinSpeed - 1);
     emoji.style.animationDuration = spinSpeed + 's';
-    caption.textContent = `Spinning frequency heightened (${(6/spinSpeed).toFixed(1)}x)!`;
+    caption.textContent = `Frequency: ${(6/spinSpeed).toFixed(1)}x`;
 }
 
 // Cipher
@@ -285,23 +286,42 @@ function checkCipher(e) {
     const inputVal = e.target.value.toLowerCase().trim();
     const feedback = document.getElementById('cipher-feedback');
     if (inputVal === "the river is moving") {
-        feedback.textContent = "SUCCESS: Transmission accepted by the Little People.";
+        feedback.textContent = "SUCCESS: Accepted by Little People.";
         feedback.style.color = "var(--accent-color-ui)";
     } else {
-        feedback.textContent = "Hint: Atbash Cipher (A becomes Z)";
+        feedback.textContent = "Hint: Atbash Cipher (A=Z)";
         feedback.style.color = "";
     }
 }
 
-// Glitch & CRT
-function triggerGlitch() {
-    const desktop = document.querySelector('.desktop');
-    desktop.classList.add('glitch-active');
-    setTimeout(() => { desktop.classList.remove('glitch-active'); }, 600);
-}
+// Little People Radar Scan with Image Reveal
+function scanRadar() {
+    const blip = document.getElementById('radar-blip');
+    const status = document.getElementById('radar-status');
+    const imgContainer = document.getElementById('lp-image-container');
+    const radarScreen = document.getElementById('radar-screen-elem');
+    
+    status.textContent = "Scanning frequencies across the expressway...";
+    blip.classList.remove('detected');
+    imgContainer.classList.add('hidden');
+    radarScreen.style.display = "block";
+    
+    setTimeout(() => {
+        if (isAlternateReality) {
+            blip.classList.add('detected');
+            status.textContent = "WARNING: Weightless entities materializing...";
+            
+            setTimeout(() => {
+                radarScreen.style.display = "none";
+                imgContainer.classList.remove('hidden');
+                status.textContent = "ENTITY CAPTURED: 'They have no weight and cast no shadows.'";
+            }, 1000);
 
-function toggleScanlines() {
-    document.body.classList.toggle('scanlines');
+        } else {
+            blip.classList.remove('detected');
+            status.textContent = "Status: Quiet. Normal air density.";
+        }
+    }, 1200);
 }
 
 // Phone
@@ -316,9 +336,9 @@ function pressPhone(num) {
 function callPhone() {
     const status = document.getElementById('phone-status');
     if(phoneBuffer === "1984" || phoneBuffer === "198499") {
-        status.textContent = "Connected... 'The receiver is listening from the other side.'";
+        status.textContent = "Connected... 'Receiver is listening.'";
     } else {
-        status.textContent = "Busy signal. The connection cannot be completed.";
+        status.textContent = "Busy signal.";
     }
     phoneBuffer = "";
     setTimeout(() => { document.getElementById('phone-screen').textContent = "---"; }, 2000);
@@ -326,12 +346,10 @@ function callPhone() {
 
 // Cat
 const catPhrases = [
-    "Meow... Is the second moon looking at you too?",
-    "Purr... The air feels thicker tonight.",
-    "Aomame walked by this alley earlier.",
-    "Tengo is still typing upstairs. Listen closely.",
-    "Cats don't believe in absolute realities.",
-    "Zzz... Just waiting for the world to shift back."
+    "Meow... Watching the second moon.",
+    "Purr... The air feels thick.",
+    "Aomame walked by earlier.",
+    "Tengo is typing upstairs."
 ];
 
 let catIndex = 0;
