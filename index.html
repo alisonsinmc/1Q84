@@ -3,26 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1Q84 — Retro Desktop Environment</title>
+    <title>1Q84 — The Archive Shelf</title>
     <link rel="stylesheet" href="style.css">
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Space+Mono&display=swap" rel="stylesheet">
 </head>
 <body class="world-1984">
 
-    <!-- Book Cover Opening Intro Overlay -->
+    <!-- Book Cover Opening Intro -->
     <div id="book-intro" class="book-cover">
         <div class="book-page-cover">
             <button id="open-book-btn" onclick="openBook()">Open the Book & Step Inside</button>
         </div>
     </div>
 
-    <!-- Background Wallpaper Layer -->
+    <!-- Wallpaper Background -->
     <div class="pixel-background"></div>
 
-    <!-- Desktop Environment Container -->
+    <!-- Desktop Environment -->
     <div class="desktop">
 
-        <!-- Top Navigation / Status Bar -->
+        <!-- Top Status Bar -->
         <header class="desktop-header">
             <div class="status-left">
                 <span id="world-indicator">Mode: 1984 (Tokyo Dusk)</span>
@@ -35,76 +35,69 @@
             </div>
         </header>
 
-        <!-- Desktop Grid Icons (Click to Open Windows) -->
-        <div class="icon-grid">
-            <div class="desktop-icon" onclick="openWindow('art-win')">
-                <span class="icon-symbol">🖼️</span>
-                <span class="icon-text">Gallery.png</span>
+        <!-- ==========================================
+             THE LIBRARY SHELF (Main Navigation Hub)
+             ========================================== -->
+        <div id="shelf-hub" class="ui-window shelf-window" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Archive_Index.shelf</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('shelf-hub')">_</button>
+                </div>
             </div>
-            <div class="desktop-icon" onclick="openWindow('kitchen-win')">
-                <span class="icon-symbol">📁</span>
-                <span class="icon-text">Midnight_Kitchen.txt</span>
-            </div>
-            <div class="desktop-icon" onclick="openWindow('dossier-win')">
-                <span class="icon-symbol">👤</span>
-                <span class="icon-text">Character_Dossier</span>
-            </div>
-            <div class="desktop-icon" onclick="openWindow('music-win')">
-                <span class="icon-symbol">🎵</span>
-                <span class="icon-text">Classical_Player</span>
-            </div>
-            <div class="desktop-icon" onclick="openWindow('entity-win')">
-                <span class="icon-symbol">👁️</span>
-                <span class="icon-text">Little_People.log</span>
-            </div>
-            <div class="desktop-icon" onclick="openWindow('notes-win')">
-                <span class="icon-symbol">📝</span>
-                <span class="icon-text">Marginalia.doc</span>
-            </div>
-            <div class="desktop-icon" onclick="openWindow('quotes-win')">
-                <span class="icon-symbol">💬</span>
-                <span class="icon-text">Air_Chrysalis.quote</span>
-            </div>
-            <div class="desktop-icon" onclick="openWindow('editor-win')">
-                <span class="icon-symbol">📋</span>
-                <span class="icon-text">Note_Editor.exe</span>
-            </div>
-            <div class="desktop-icon" onclick="openWindow('widget-win')">
-                <span class="icon-symbol">🌕</span>
-                <span class="icon-text">Moon_Widget.exe</span>
-            </div>
-            <div class="desktop-icon" onclick="openWindow('chrysalis-win')">
-                <span class="icon-symbol">🌀</span>
-                <span class="icon-text">Air_Chrysalis.ani</span>
-            </div>
-            <div class="desktop-icon" onclick="openWindow('cipher-win')">
-                <span class="icon-symbol">🔏</span>
-                <span class="icon-text">Cipher.exe</span>
-            </div>
-            <div class="desktop-icon" onclick="openWindow('glitch-win')">
-                <span class="icon-symbol">⚡</span>
-                <span class="icon-text">Glitch.exe</span>
-            </div>
-            <div class="desktop-icon" onclick="openWindow('gazette-win')">
-                <span class="icon-symbol">📰</span>
-                <span class="icon-text">Tokyo_Gazette</span>
-            </div>
-            <div class="desktop-icon" onclick="openWindow('manuscript-win')">
-                <span class="icon-symbol">📖</span>
-                <span class="icon-text">Manuscript.pdf</span>
-            </div>
-            <div class="desktop-icon" onclick="openWindow('phone-win')">
-                <span class="icon-symbol">📞</span>
-                <span class="icon-text">Hotel_Phone.exe</span>
+            <div class="window-content">
+                <h2>The Murakami Archive</h2>
+                <p class="section-subtitle">Select a compartment from the shelf to examine its contents.</p>
+                
+                <div class="shelf-sections">
+                    <div class="shelf-row">
+                        <span class="shelf-label">Shelf I: Rituals</span>
+                        <div class="shelf-items">
+                            <button class="shelf-btn" onclick="openWindow('art-win')">🖼️ Gallery</button>
+                            <button class="shelf-btn" onclick="openWindow('kitchen-win')">📁 Midnight Kitchen</button>
+                            <button class="shelf-btn" onclick="openWindow('editor-win')">📋 Scratchpad</button>
+                        </div>
+                    </div>
+
+                    <div class="shelf-row">
+                        <span class="shelf-label">Shelf II: Dossiers</span>
+                        <div class="shelf-items">
+                            <button class="shelf-btn" onclick="openWindow('dossier-win')">👤 Characters</button>
+                            <button class="shelf-btn" onclick="openWindow('notes-win')">📝 Marginalia</button>
+                            <button class="shelf-btn" onclick="openWindow('quotes-win')">💬 Quotes</button>
+                        </div>
+                    </div>
+
+                    <div class="shelf-row">
+                        <span class="shelf-label">Shelf III: Anomalies</span>
+                        <div class="shelf-items">
+                            <button class="shelf-btn" onclick="openWindow('entity-win')">👁️ Little People</button>
+                            <button class="shelf-btn" onclick="openWindow('widget-win')">🌕 Moon Widget</button>
+                            <button class="shelf-btn" onclick="openWindow('chrysalis-win')">🌀 Air Chrysalis</button>
+                        </div>
+                    </div>
+
+                    <div class="shelf-row">
+                        <span class="shelf-label">Shelf IV: Interactives</span>
+                        <div class="shelf-items">
+                            <button class="shelf-btn" onclick="openWindow('music-win')">🎵 Classical Player</button>
+                            <button class="shelf-btn" onclick="openWindow('cipher-win')">🔏 Cipher Decoder</button>
+                            <button class="shelf-btn" onclick="openWindow('glitch-win')">⚡ Glitch Customizer</button>
+                            <button class="shelf-btn" onclick="openWindow('gazette-win')">📰 Gazette</button>
+                            <button class="shelf-btn" onclick="openWindow('manuscript-win')">📖 Manuscript</button>
+                            <button class="shelf-btn" onclick="openWindow('phone-win')">📞 Hotel Phone</button>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <!-- ==========================================
-             FLOATING WINDOWS CONTAINER
+             FLOATING WINDOWS (All hidden at start)
              ========================================== -->
 
         <!-- 1. Artwork Gallery Window -->
-        <div id="art-win" class="ui-window active-win" style="top: 50px; left: 110px;" onmousedown="bringToFront(this)">
+        <div id="art-win" class="ui-window minimized" style="top: 80px; left: 470px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
                 <span class="window-title">Gallery: Tokyo_ & _Moons.png</span>
                 <div class="window-controls">
@@ -113,6 +106,7 @@
                 </div>
             </div>
             <div class="window-content">
+                <div class="world-status-tag" id="tag-art">Active Reality: 1984</div>
                 <h2>Visualizing the Shift</h2>
                 <p class="section-subtitle">Active world illustration:</p>
                 <div class="art-frame">
@@ -125,8 +119,8 @@
             </div>
         </div>
 
-        <!-- 2. Midnight Kitchen Window (Book-Flip Style) -->
-        <div id="kitchen-win" class="ui-window" style="top: 70px; left: 470px;" onmousedown="bringToFront(this)">
+        <!-- 2. Midnight Kitchen Window -->
+        <div id="kitchen-win" class="ui-window minimized" style="top: 100px; left: 500px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
                 <span class="window-title">Reminder: Midnight_Kitchen.txt</span>
                 <div class="window-controls">
@@ -135,9 +129,9 @@
                 </div>
             </div>
             <div class="window-content">
+                <div class="world-status-tag" id="tag-kitchen">Active Reality: 1984</div>
                 <h2>Food as Ritual</h2>
                 <p class="section-subtitle">Click a recipe card to flip open the book.</p>
-                
                 <div id="recipe-select-view" class="recipe-grid">
                     <div class="recipe-card" onclick="openRecipeBook('spaghetti')">
                         <div class="sketch-frame"><span class="ascii-art">~[ 🍝 ]~</span></div>
@@ -152,16 +146,13 @@
                         <h3>Sandwich</h3>
                     </div>
                 </div>
-
                 <div id="recipe-book-view" class="recipe-book-page hidden">
                     <button class="back-to-menu" onclick="closeRecipeBook()">← Back to Index</button>
                     <div class="recipe-book-inner">
-                        <div class="recipe-image-frame">
-                            <span id="recipe-book-art" class="recipe-art-ascii">🍝</span>
-                        </div>
+                        <div class="recipe-image-frame"><span id="recipe-book-art" class="recipe-art-ascii">🍝</span></div>
                         <div class="recipe-text-content">
-                            <h3 id="recipe-book-title">Recipe Title</h3>
-                            <p id="recipe-book-desc">Recipe instructions...</p>
+                            <h3 id="recipe-book-title">Title</h3>
+                            <p id="recipe-book-desc">Desc...</p>
                         </div>
                     </div>
                 </div>
@@ -169,7 +160,7 @@
         </div>
 
         <!-- 3. Character Dossier Window -->
-        <div id="dossier-win" class="ui-window" style="top: 350px; left: 110px;" onmousedown="bringToFront(this)">
+        <div id="dossier-win" class="ui-window minimized" style="top: 120px; left: 530px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
                 <span class="window-title">Dossier: Character_Database</span>
                 <div class="window-controls">
@@ -178,6 +169,7 @@
                 </div>
             </div>
             <div class="window-content">
+                <div class="world-status-tag" id="tag-dossier">Active Reality: 1984</div>
                 <div class="char-tabs">
                     <button class="char-btn active" onclick="loadCharacter('aomame')">Aomame</button>
                     <button class="char-btn" onclick="loadCharacter('tengo')">Tengo</button>
@@ -190,7 +182,7 @@
         </div>
 
         <!-- 4. Classical Music Player Window -->
-        <div id="music-win" class="ui-window" style="top: 360px; left: 470px;" onmousedown="bringToFront(this)">
+        <div id="music-win" class="ui-window minimized" style="top: 140px; left: 560px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
                 <span class="window-title">Player: Classical_Repertoire</span>
                 <div class="window-controls">
@@ -199,24 +191,21 @@
                 </div>
             </div>
             <div class="window-content">
+                <div class="world-status-tag" id="tag-music">Active Reality: 1984</div>
                 <h2>The Sound of the Shift</h2>
                 <div class="playlist">
-                    <div class="track-item" onclick="playClassicalTrack('sinfonietta')">
-                        <span class="track-name">Janáček — Sinfonietta</span>
-                    </div>
-                    <div class="track-item" onclick="playClassicalTrack('goldberg')">
-                        <span class="track-name">Bach — Goldberg Variations</span>
-                    </div>
+                    <div class="track-item" onclick="playClassicalTrack('sinfonietta')"><span class="track-name">Janáček — Sinfonietta</span></div>
+                    <div class="track-item" onclick="playClassicalTrack('goldberg')"><span class="track-name">Bach — Goldberg Variations</span></div>
                 </div>
                 <div id="track-display" class="track-box">
                     <h4 id="track-title">Select a composition...</h4>
-                    <p id="track-desc">Allow the notes to alter the geometry of the room.</p>
+                    <p id="track-desc">Allow the notes to alter the room.</p>
                 </div>
             </div>
         </div>
 
         <!-- 5. Little People Window -->
-        <div id="entity-win" class="ui-window" style="top: 60px; left: 830px;" onmousedown="bringToFront(this)">
+        <div id="entity-win" class="ui-window minimized" style="top: 160px; left: 590px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
                 <span class="window-title">System Log: Unknown_Entity.log</span>
                 <div class="window-controls">
@@ -225,6 +214,7 @@
                 </div>
             </div>
             <div class="window-content">
+                <div class="world-status-tag" id="tag-entity">Active Reality: 1984</div>
                 <h2>The Little People</h2>
                 <button id="summon-btn" onclick="triggerLittlePeople()">Listen to Silence</button>
                 <div id="little-people-display" class="terminal-box">
@@ -234,7 +224,7 @@
         </div>
 
         <!-- 6. Reader Marginalia Window -->
-        <div id="notes-win" class="ui-window" style="top: 260px; left: 830px;" onmousedown="bringToFront(this)">
+        <div id="notes-win" class="ui-window minimized" style="top: 180px; left: 620px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
                 <span class="window-title">Notepad: Reader_Marginalia.doc</span>
                 <div class="window-controls">
@@ -243,6 +233,7 @@
                 </div>
             </div>
             <div class="window-content">
+                <div class="world-status-tag" id="tag-notes">Active Reality: 1984</div>
                 <h2>Annotated Fragments</h2>
                 <div class="marginalia-grid">
                     <button class="marginalia-btn active" onclick="loadNote('soul')">"Soul"</button>
@@ -256,7 +247,7 @@
         </div>
 
         <!-- 7. Quotes Window -->
-        <div id="quotes-win" class="ui-window" style="top: 460px; left: 830px;" onmousedown="bringToFront(this)">
+        <div id="quotes-win" class="ui-window minimized" style="top: 200px; left: 650px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
                 <span class="window-title">Air_Chrysalis.quote</span>
                 <div class="window-controls">
@@ -265,17 +256,16 @@
                 </div>
             </div>
             <div class="window-content">
+                <div class="world-status-tag" id="tag-quotes">Active Reality: 1984</div>
                 <h2>Fragment</h2>
-                <blockquote id="quote-box">
-                    "In this world, sincerity can sometimes save people..."
-                </blockquote>
+                <blockquote id="quote-box">"In this world, sincerity can sometimes save people..."</blockquote>
             </div>
         </div>
 
         <!-- 8. Note Editor Window -->
-        <div id="editor-win" class="ui-window" style="top: 520px; left: 110px;" onmousedown="bringToFront(this)">
+        <div id="editor-win" class="ui-window minimized" style="top: 220px; left: 680px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
-                <span class="window-title">Note_Editor.exe — Manuscript Draft</span>
+                <span class="window-title">Note_Editor.exe</span>
                 <div class="window-controls">
                     <button onclick="minimizeWindow('editor-win')">_</button>
                     <button onclick="closeWindow('editor-win')">X</button>
@@ -283,38 +273,38 @@
             </div>
             <div class="window-content">
                 <h2>Scratchpad</h2>
-                <p class="section-subtitle">Type your private thoughts or notes below.</p>
                 <textarea id="user-notepad" class="retro-textarea" placeholder="Write something into the silence..."></textarea>
                 <div class="editor-actions">
-                    <button class="char-btn" onclick="saveNotePad()">Save Local</button>
+                    <button class="char-btn" onclick="saveNotePad()">Save</button>
                     <span id="save-status" class="save-status">Saved</span>
                 </div>
             </div>
         </div>
 
-        <!-- 9. Moon Phase & Weather Widget Window -->
-        <div id="widget-win" class="ui-window" style="top: 540px; left: 470px;" onmousedown="bringToFront(this)">
+        <!-- 9. Moon Widget Window -->
+        <div id="widget-win" class="ui-window minimized" style="top: 240px; left: 710px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
-                <span class="window-title">Moon_Widget.exe — Sky Scanner</span>
+                <span class="window-title">Moon_Widget.exe</span>
                 <div class="window-controls">
                     <button onclick="minimizeWindow('widget-win')">_</button>
                     <button onclick="closeWindow('widget-win')">X</button>
                 </div>
             </div>
             <div class="window-content">
+                <div class="world-status-tag" id="tag-widget">Active Reality: 1984</div>
                 <h2>Atmosphere Monitor</h2>
                 <div class="widget-display">
                     <div class="moon-icon-box" id="widget-moon-icon">🌕</div>
                     <div class="widget-info">
-                        <p id="widget-status"><strong>Sky Condition:</strong> Ordinary dusk over Tokyo.</p>
-                        <p id="widget-humidity"><strong>Air Density:</strong> Normal (1.0x)</p>
+                        <p id="widget-status"><strong>Sky Condition:</strong> Ordinary dusk.</p>
+                        <p id="widget-humidity"><strong>Air Density:</strong> 1.0x</p>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- 10. Air Chrysalis Spinning Window -->
-        <div id="chrysalis-win" class="ui-window" style="top: 180px; left: 1180px;" onmousedown="bringToFront(this)">
+        <!-- 10. Air Chrysalis Animation Window -->
+        <div id="chrysalis-win" class="ui-window minimized" style="top: 260px; left: 740px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
                 <span class="window-title">Air_Chrysalis.ani</span>
                 <div class="window-controls">
@@ -324,16 +314,15 @@
             </div>
             <div class="window-content" style="text-align: center;">
                 <h2>The Cocoon</h2>
-                <p class="section-subtitle">Spinning in absolute silence.</p>
                 <div class="chrysalis-sphere" onclick="pulseChrysalis()">
                     <span id="chrysalis-emoji">🧶</span>
                 </div>
-                <p id="chrysalis-status" class="chrysalis-caption">Click to accelerate the spinning fibers.</p>
+                <p id="chrysalis-status" class="chrysalis-caption">Click to accelerate.</p>
             </div>
         </div>
 
         <!-- 11. Cipher Decoder Window -->
-        <div id="cipher-win" class="ui-window" style="top: 60px; left: 1180px;" onmousedown="bringToFront(this)">
+        <div id="cipher-win" class="ui-window minimized" style="top: 280px; left: 770px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
                 <span class="window-title">Cipher_Decoder.exe</span>
                 <div class="window-controls">
@@ -343,17 +332,14 @@
             </div>
             <div class="window-content">
                 <h2>Little People Cipher</h2>
-                <p class="section-subtitle">Decrypt scrambled transmissions.</p>
-                <div class="cipher-box">
-                    <p id="encrypted-text">Gsv rmwvi rh nznrmt.</p>
-                </div>
-                <input type="text" id="cipher-input" class="retro-input" placeholder="Type decoded message..." onkeyup="checkCipher(event)">
-                <p id="cipher-feedback" class="cipher-hint">Hint: Atbash Cipher (A becomes Z)</p>
+                <div class="cipher-box"><p id="encrypted-text">Gsv rmwvi rh nznrmt.</p></div>
+                <input type="text" id="cipher-input" class="retro-input" placeholder="Decode message..." onkeyup="checkCipher(event)">
+                <p id="cipher-feedback" class="cipher-hint">Hint: Atbash Cipher</p>
             </div>
         </div>
 
-        <!-- 12. Screen Glitch / World Customizer Window -->
-        <div id="glitch-win" class="ui-window" style="top: 380px; left: 1180px;" onmousedown="bringToFront(this)">
+        <!-- 12. Glitch Customizer Window -->
+        <div id="glitch-win" class="ui-window minimized" style="top: 300px; left: 800px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
                 <span class="window-title">Geometry_Customizer.exe</span>
                 <div class="window-controls">
@@ -363,40 +349,35 @@
             </div>
             <div class="window-content">
                 <h2>Reality Alteration</h2>
-                <p class="section-subtitle">Manipulate the alternate dimension.</p>
                 <div class="glitch-controls">
-                    <button class="char-btn" onclick="triggerGlitch()">Trigger Terminal Glitch</button>
-                    <button class="char-btn" onclick="toggleScanlines()">Toggle CRT Scanlines</button>
+                    <button class="char-btn" onclick="triggerGlitch()">Trigger Glitch</button>
+                    <button class="char-btn" onclick="toggleScanlines()">Toggle CRT</button>
                 </div>
             </div>
         </div>
 
-        <!-- 13. NEW: Tokyo Gazette News Window -->
-        <div id="gazette-win" class="ui-window" style="top: 100px; left: 1500px;" onmousedown="bringToFront(this)">
+        <!-- 13. Tokyo Gazette Window -->
+        <div id="gazette-win" class="ui-window minimized" style="top: 320px; left: 830px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
-                <span class="window-title">Tokyo_Gazette.exe — Headlines</span>
+                <span class="window-title">Tokyo_Gazette.exe</span>
                 <div class="window-controls">
                     <button onclick="minimizeWindow('gazette-win')">_</button>
                     <button onclick="closeWindow('gazette-win')">X</button>
                 </div>
             </div>
             <div class="window-content">
-                <h2>Daily News Clippings</h2>
+                <h2>Daily News</h2>
                 <div class="gazette-feed">
                     <article class="gazette-article">
-                        <h4>Bizarre Cult Activity Reported in Setagaya Ward</h4>
-                        <p>Authorities note unusual gatherings surrounding a secretive religious organization known as the Leading Group...</p>
-                    </article>
-                    <article class="gazette-article">
-                        <h4>Unexplained Atmospheric Anomalies Over Expressways</h4>
-                        <p>Commuters report strange distortions and altered travel times near emergency stairwells on the Shuto Expressway...</p>
+                        <h4>Bizarre Cult Activity</h4>
+                        <p>Authorities note unusual gatherings surrounding the Leading Group...</p>
                     </article>
                 </div>
             </div>
         </div>
 
-        <!-- 14. NEW: Manuscript Reader Window -->
-        <div id="manuscript-win" class="ui-window" style="top: 340px; left: 1500px;" onmousedown="bringToFront(this)">
+        <!-- 14. Manuscript Reader Window -->
+        <div id="manuscript-win" class="ui-window minimized" style="top: 340px; left: 860px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
                 <span class="window-title">Air_Chrysalis_Draft.pdf</span>
                 <div class="window-controls">
@@ -407,13 +388,13 @@
             <div class="window-content">
                 <h2>Dictation Excerpt</h2>
                 <div class="manuscript-viewer">
-                    <p><em>"In the depths of the forest, the chrysalis is spun by invisible hands. No one enters unless invited by the Little People..."</em></p>
+                    <p><em>"In the depths of the forest, the chrysalis is spun..."</em></p>
                 </div>
             </div>
         </div>
 
-        <!-- 15. NEW: Hotel Room Telephone Switchboard Window -->
-        <div id="phone-win" class="ui-window" style="top: 540px; left: 1180px;" onmousedown="bringToFront(this)">
+        <!-- 15. Hotel Phone Window -->
+        <div id="phone-win" class="ui-window minimized" style="top: 360px; left: 890px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
                 <span class="window-title">Hotel_Phone.exe</span>
                 <div class="window-controls">
@@ -422,11 +403,8 @@
                 </div>
             </div>
             <div class="window-content" style="text-align: center;">
-                <h2>Aomame's Switchboard</h2>
-                <p class="section-subtitle">Dial a destination number.</p>
-                <div class="phone-display">
-                    <span id="phone-screen">---</span>
-                </div>
+                <h2>Switchboard</h2>
+                <div class="phone-display"><span id="phone-screen">---</span></div>
                 <div class="phone-keypad">
                     <button class="phone-btn" onclick="pressPhone('1')">1</button>
                     <button class="phone-btn" onclick="pressPhone('2')">2</button>
@@ -441,7 +419,7 @@
                     <button class="phone-btn" onclick="pressPhone('0')">0</button>
                     <button class="phone-btn" onclick="callPhone()">CALL</button>
                 </div>
-                <p id="phone-status" class="phone-msg">Receiver is resting.</p>
+                <p id="phone-status" class="phone-msg">Receiver resting.</p>
             </div>
         </div>
 
@@ -453,9 +431,9 @@
 
     </div><!-- End Desktop -->
 
-    <!-- Taskbar at bottom -->
+    <!-- Taskbar -->
     <footer class="taskbar" id="taskbar">
-        <span class="taskbar-start">❖ Start</span>
+        <span class="taskbar-start" onclick="openWindow('shelf-hub')">❖ Index Shelf</span>
         <div id="taskbar-items" class="taskbar-items"></div>
     </footer>
 
