@@ -20,17 +20,9 @@
             <h1 id="title">1984</h1>
             <p id="description">The air is ordinary. The highway is quiet. Nothing has changed yet.</p>
             <button id="shift-btn" onclick="toggleWorld()">Step Through the Exit</button>
-
-            <div class="audio-player">
-                <button id="audio-toggle" onclick="toggleAudio()">♫ Play Atmosphere</button>
-                <span id="audio-status">Muted</span>
-                <audio id="ambient-audio" loop>
-                    <source src="https://assets.mixkit.co/active_storage/sfx/2522/2522-preview.mp3" type="audio/mpeg">
-                </audio>
-            </div>
         </header>
 
-        <!-- Culinary Section: Styled as "Reminder" Window -->
+        <!-- Culinary Section: ASCII Sketch Gallery & Rituals -->
         <section class="culinary-container ui-window">
             <div class="window-header">
                 <span class="window-title">Reminder: Midnight Kitchen</span>
@@ -38,24 +30,41 @@
             </div>
             <div class="window-content">
                 <h2>Food as Ritual</h2>
-                <p class="section-subtitle">Simple food keeps you anchored in a world with two moons.</p>
+                <p class="section-subtitle">Click a notebook sketch to inspect the recipe and preparation ritual.</p>
+                
                 <div class="recipe-grid">
+                    <!-- Sketch 1: Spaghetti -->
                     <div class="recipe-card" onclick="loadRecipe('spaghetti')">
-                        <h3>Spaghetti</h3>
+                        <div class="sketch-frame">
+                            <span class="ascii-art">~[ 🍝 ]~</span>
+                        </div>
+                        <h3>Simple Spaghetti</h3>
                         <span class="recipe-tag">Aomame</span>
                     </div>
+
+                    <!-- Sketch 2: Whiskey -->
                     <div class="recipe-card" onclick="loadRecipe('whiskey')">
-                        <h3>Whiskey</h3>
+                        <div class="sketch-frame">
+                            <span class="ascii-art">[ 🥃 ]</span>
+                        </div>
+                        <h3>Cutty Sark</h3>
                         <span class="recipe-tag">Bar Melancholy</span>
                     </div>
+
+                    <!-- Sketch 3: Sandwich -->
                     <div class="recipe-card" onclick="loadRecipe('sandwich')">
-                        <h3>Sandwich</h3>
+                        <div class="sketch-frame">
+                            <span class="ascii-art">&lt;[ 🥪 ]&gt;</span>
+                        </div>
+                        <h3>Toasted Sandwich</h3>
                         <span class="recipe-tag">Tengo</span>
                     </div>
                 </div>
+
+                <!-- Dynamic Recipe Display Box -->
                 <div id="recipe-display" class="recipe-box">
-                    <h4 id="recipe-title">Select a dish...</h4>
-                    <p id="recipe-instructions">Cooking is a physical act. It grounds you.</p>
+                    <h4 id="recipe-title">Select a sketch above...</h4>
+                    <p id="recipe-instructions">Cooking is a physical act. It grounds you when reality starts to shift.</p>
                 </div>
             </div>
         </section>
@@ -74,6 +83,56 @@
                 <div id="char-display" class="char-card">
                     <h3 id="char-name">Aomame</h3>
                     <p id="char-desc">A fitness instructor and assassin...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Classical Music Section: Styled as a Retro Media Player -->
+        <section class="music-container ui-window">
+            <div class="window-header">
+                <span class="window-title">Player: Classical Repertoire</span>
+                <span class="window-controls">_ O X</span>
+            </div>
+            <div class="window-content">
+                <h2>The Sound of the Shift</h2>
+                <p class="section-subtitle">Music is the key that unlocks alternate dimensions.</p>
+                
+                <div class="playlist">
+                    <div class="track-item" onclick="playClassicalTrack('sinfonietta')">
+                        <span class="track-name">Leoš Janáček — Sinfonietta</span>
+                        <span class="track-tag">The 1Q84 Catalyst</span>
+                    </div>
+                    <div class="track-item" onclick="playClassicalTrack('goldberg')">
+                        <span class="track-name">J.S. Bach — Goldberg Variations</span>
+                        <span class="track-tag">The Quiet Obsession</span>
+                    </div>
+                </div>
+
+                <div id="track-display" class="track-box">
+                    <h4 id="track-title">Select a composition above...</h4>
+                    <p id="track-desc">Allow the notes to alter the geometry of the room around you.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Marginalia Section: Reader Notes & Quotes -->
+        <section class="marginalia-container ui-window">
+            <div class="window-header">
+                <span class="window-title">Notepad: Reader Marginalia</span>
+                <span class="window-controls">_ O X</span>
+            </div>
+            <div class="window-content">
+                <h2>Annotated Fragments</h2>
+                <p class="section-subtitle">Passages that hit too personally to ever show anyone else.</p>
+                
+                <div class="marginalia-grid">
+                    <button class="marginalia-btn active" onclick="loadNote('soul')">"Except My Soul"</button>
+                    <button class="marginalia-btn" onclick="loadNote('fear')">"Living as Myself"</button>
+                    <button class="marginalia-btn" onclick="loadNote('confusion')">"Blissfully Confused"</button>
+                </div>
+
+                <div id="note-display" class="note-box">
+                    <p id="note-text">"I don't have a thing except my soul." — Tengo</p>
                 </div>
             </div>
         </section>
