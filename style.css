@@ -220,7 +220,6 @@ body.world-1q84 .window-portrait { filter: hue-rotate(90deg) brightness(0.85); }
 .cipher-box { background: var(--box-bg-terminal); color: var(--terminal-text); padding: 8px; font-family: 'Courier New', monospace; font-size: 0.8rem; border: 1px inset var(--ui-window-border); margin-bottom: 8px; text-align: center; }
 .retro-input { width: 100%; background: rgba(255, 255, 255, 0.8); border: 1px inset var(--ui-window-border); padding: 5px; font-family: 'Space Mono', monospace; font-size: 0.85rem; margin-bottom: 4px; color: #000; }
 .cipher-hint { font-size: 0.65rem; opacity: 0.7; }
-.glitch-controls { display: flex; flex-direction: column; gap: 6px; }
 
 body.scanlines::after {
     content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0;
@@ -261,10 +260,12 @@ body.world-1q84 .altered-keyword { color: #93ffb2; text-shadow: 0 0 8px rgba(147
 }
 .desktop-cat:hover .cat-bubble { opacity: 1; }
 
-/* Taskbar */
+/* Taskbar & Bottom Creator Tag */
 .taskbar {
     position: fixed; bottom: 0; left: 0; width: 100%; height: 30px;
-    background: #2b2b2b; border-top: 2px solid #555; display: flex; align-items: center; padding: 0 10px; z-index: 9999;
+    background: #2b2b2b; border-top: 2px solid #555; display: flex; justify-content: space-between; align-items: center; padding: 0 10px; z-index: 9999;
 }
+.taskbar-left-group { display: flex; align-items: center; }
 .taskbar-start { background: #c0c0c0; border: 1px outset #fff; padding: 2px 10px; font-size: 0.75rem; font-weight: bold; cursor: pointer; color: #000; }
 .taskbar-items { display: flex; gap: 5px; margin-left: 10px; }
+.taskbar-right-creator { color: #ccc; font-size: 0.7rem; letter-spacing: 0.5px; padding-right: 5px; }
