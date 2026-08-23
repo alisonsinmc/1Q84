@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1Q84 — A Digital Altarpiece</title>
+    <link rel="stylesheet" href="style.css">
+    <!-- Google Fonts for literary feel -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Space+Mono&display=swap" rel="stylesheet">
+</head>
+<body class="world-1984">
+
+    <!-- The Background Pixel Art Container -->
+    <div class="pixel-background"></div>
+
+    <!-- Main Content Overlay -->
+    <main class="content">
+        <header class="site-header">
+            <span class="tag">06:00 PM — Tokyo</span>
+            <h1 id="title">1984</h1>
+            <p id="description">The air is ordinary. The highway is quiet. Nothing has changed yet.</p>
+            <button id="shift-btn" onclick="toggleWorld()">Step Through the Exit</button>
+
+            <div class="audio-player">
+                <button id="audio-toggle" onclick="toggleAudio()">♫ Play Atmosphere</button>
+                <span id="audio-status">Muted</span>
+                <audio id="ambient-audio" loop>
+                    <source src="https://assets.mixkit.co/active_storage/sfx/2522/2522-preview.mp3" type="audio/mpeg">
+                </audio>
+            </div>
+        </header>
+
+        <!-- Culinary Section: Styled as "Reminder" Window -->
+        <section class="culinary-container ui-window">
+            <div class="window-header">
+                <span class="window-title">Reminder: Midnight Kitchen</span>
+                <span class="window-controls">_ O X</span>
+            </div>
+            <div class="window-content">
+                <h2>Food as Ritual</h2>
+                <p class="section-subtitle">Simple food keeps you anchored in a world with two moons.</p>
+                <div class="recipe-grid">
+                    <div class="recipe-card" onclick="loadRecipe('spaghetti')">
+                        <h3>Spaghetti</h3>
+                        <span class="recipe-tag">Aomame</span>
+                    </div>
+                    <div class="recipe-card" onclick="loadRecipe('whiskey')">
+                        <h3>Whiskey</h3>
+                        <span class="recipe-tag">Bar Melancholy</span>
+                    </div>
+                    <div class="recipe-card" onclick="loadRecipe('sandwich')">
+                        <h3>Sandwich</h3>
+                        <span class="recipe-tag">Tengo</span>
+                    </div>
+                </div>
+                <div id="recipe-display" class="recipe-box">
+                    <h4 id="recipe-title">Select a dish...</h4>
+                    <p id="recipe-instructions">Cooking is a physical act. It grounds you.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Character Section: Styled as "Spell Check" Window -->
+        <section class="characters-container ui-window">
+            <div class="window-header">
+                <span class="window-title">Dossier: The Two Solitudes</span>
+                <span class="window-controls">_ O X</span>
+            </div>
+            <div class="window-content">
+                <div class="char-tabs">
+                    <button class="char-btn active" onclick="loadCharacter('aomame')">Aomame</button>
+                    <button class="char-btn" onclick="loadCharacter('tengo')">Tengo</button>
+                </div>
+                <div id="char-display" class="char-card">
+                    <h3 id="char-name">Aomame</h3>
+                    <p id="char-desc">A fitness instructor and assassin...</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Quotes Section: Styled as "Now Playing" Window -->
+        <section class="quotes-container ui-window">
+            <div class="window-header">
+                <span class="window-title">Now Playing: Fragments</span>
+                <span class="window-controls">_ O X</span>
+            </div>
+            <div class="window-content">
+                <h2>From the Air Chrysalis</h2>
+                <blockquote id="quote-box">
+                    "In this world, sincerity can sometimes save people, but it can also destroy them."
+                </blockquote>
+            </div>
+        </section>
+    </main>
+
+    <!-- Footer Note -->
+    <footer>
+        <p>Janáček’s Sinfonietta playing faintly...</p>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
