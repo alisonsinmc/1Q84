@@ -9,7 +9,7 @@
 </head>
 <body class="world-1984">
 
-    <!-- Background Wallpaper -->
+    <!-- Background Wallpaper Layer -->
     <div class="pixel-background"></div>
 
     <!-- Desktop Environment Container -->
@@ -30,6 +30,10 @@
 
         <!-- Desktop Grid Icons (Click to Open Windows) -->
         <div class="icon-grid">
+            <div class="desktop-icon" onclick="openWindow('art-win')">
+                <span class="icon-symbol">🖼️</span>
+                <span class="icon-text">Gallery.png</span>
+            </div>
             <div class="desktop-icon" onclick="openWindow('kitchen-win')">
                 <span class="icon-symbol">📁</span>
                 <span class="icon-text">Midnight_Kitchen.txt</span>
@@ -60,8 +64,30 @@
              FLOATING WINDOWS CONTAINER
              ========================================== -->
 
-        <!-- 1. Midnight Kitchen Window -->
-        <div id="kitchen-win" class="ui-window active-win" style="top: 50px; left: 50px;" onmousedown="bringToFront(this)">
+        <!-- 1. Artwork Gallery Window -->
+        <div id="art-win" class="ui-window active-win" style="top: 50px; left: 120px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Gallery: Tokyo_ & _Moons.png</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('art-win')">_</button>
+                    <button onclick="closeWindow('art-win')">X</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <h2>Visualizing the Shift</h2>
+                <p class="section-subtitle">Active world illustration:</p>
+                <div class="art-frame">
+                    <img id="active-artwork" src="tokyo-moons.png" alt="1Q84 Artwork" class="desktop-art-img">
+                </div>
+                <div class="art-switcher">
+                    <button class="char-btn active" onclick="switchArt('tokyo', this)">Rooftops</button>
+                    <button class="char-btn" onclick="switchArt('park', this)">Park & Coffee</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2. Midnight Kitchen Window -->
+        <div id="kitchen-win" class="ui-window" style="top: 80px; left: 490px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
                 <span class="window-title">Reminder: Midnight_Kitchen.txt</span>
                 <div class="window-controls">
@@ -93,8 +119,8 @@
             </div>
         </div>
 
-        <!-- 2. Character Dossier Window -->
-        <div id="dossier-win" class="ui-window" style="top: 80px; left: 380px;" onmousedown="bringToFront(this)">
+        <!-- 3. Character Dossier Window -->
+        <div id="dossier-win" class="ui-window" style="top: 360px; left: 120px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
                 <span class="window-title">Dossier: Character_Database</span>
                 <div class="window-controls">
@@ -114,8 +140,8 @@
             </div>
         </div>
 
-        <!-- 3. Classical Music Player Window -->
-        <div id="music-win" class="ui-window" style="top: 320px; left: 80px;" onmousedown="bringToFront(this)">
+        <!-- 4. Classical Music Player Window -->
+        <div id="music-win" class="ui-window" style="top: 380px; left: 490px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
                 <span class="window-title">Player: Classical_Repertoire</span>
                 <div class="window-controls">
@@ -140,8 +166,8 @@
             </div>
         </div>
 
-        <!-- 4. Little People Window -->
-        <div id="entity-win" class="ui-window" style="top: 350px; left: 450px;" onmousedown="bringToFront(this)">
+        <!-- 5. Little People Window -->
+        <div id="entity-win" class="ui-window" style="top: 100px; left: 860px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
                 <span class="window-title">System Log: Unknown_Entity.log</span>
                 <div class="window-controls">
@@ -158,8 +184,8 @@
             </div>
         </div>
 
-        <!-- 5. Reader Marginalia Window -->
-        <div id="notes-win" class="ui-window" style="top: 120px; left: 700px;" onmousedown="bringToFront(this)">
+        <!-- 6. Reader Marginalia Window -->
+        <div id="notes-win" class="ui-window" style="top: 300px; left: 860px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
                 <span class="window-title">Notepad: Reader_Marginalia.doc</span>
                 <div class="window-controls">
@@ -180,8 +206,8 @@
             </div>
         </div>
 
-        <!-- 6. Quotes Window -->
-        <div id="quotes-win" class="ui-window" style="top: 450px; left: 750px;" onmousedown="bringToFront(this)">
+        <!-- 7. Quotes Window -->
+        <div id="quotes-win" class="ui-window" style="top: 500px; left: 860px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
                 <span class="window-title">Air_Chrysalis.quote</span>
                 <div class="window-controls">
@@ -199,7 +225,7 @@
 
     </div><!-- End Desktop -->
 
-    <!-- Taskbar at bottom for reopening minimized windows -->
+    <!-- Taskbar at bottom -->
     <footer class="taskbar" id="taskbar">
         <span class="taskbar-start">❖ Start</span>
         <div id="taskbar-items" class="taskbar-items"></div>
