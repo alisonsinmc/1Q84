@@ -7,7 +7,7 @@ function bringToFront(win) {
     win.style.zIndex = highestZ;
 }
 
-// Open / Close / Minimize Window Logic
+// Window Management Engine
 function openWindow(winId) {
     const win = document.getElementById(winId);
     win.classList.remove('minimized');
@@ -48,7 +48,22 @@ function stopDrag() {
     document.removeEventListener('mouseup', stopDrag);
 }
 
-// World-Specific Content Databases
+// Artwork Switcher
+function switchArt(artType, btnElem) {
+    const imgElem = document.getElementById('active-artwork');
+    const buttons = document.querySelectorAll('.art-switcher .char-btn');
+
+    buttons.forEach(b => b.classList.remove('active'));
+    if(btnElem) btnElem.classList.add('active');
+
+    if (artType === 'tokyo') {
+        imgElem.src = 'tokyo-moons.png';
+    } else if (artType === 'park') {
+        imgElem.src = 'park-moons.png';
+    }
+}
+
+// Databases for World States
 const worldQuotes = {
     "1984": "“In this world, sincerity can sometimes save people, but it can also destroy them.”",
     "1Q84": "“I think you lost all interest in this world. You were disappointed and discouraged, and lost interest in everything. So you abandoned your physical body. You went to a world apart and you're living a different kind of life there. In a world inside you.”"
@@ -100,12 +115,15 @@ const marginaliaNotes = {
     }
 };
 
+// Toggle World Function (Syncs wallpaper art, window themes, and text content)
 function toggleWorld() {
     isAlternateReality = !isAlternateReality;
     const body = document.body;
     const indicator = document.getElementById('world-indicator');
     const quoteElem = document.getElementById('quote-box');
     const shiftBtn = document.getElementById('shift-btn');
+    const imgElem = document.getElementById('active-artwork');
+    const artButtons = document.querySelectorAll('.art-switcher .char-btn');
 
     quoteElem.style.opacity = '0';
 
@@ -116,12 +134,26 @@ function toggleWorld() {
             indicator.textContent = "Mode: 1Q84 (Two Moons / Eerie Glow)";
             shiftBtn.textContent = "Return to 1984";
             quoteElem.textContent = worldQuotes["1Q84"];
+            
+            // Switch gallery image to park/coffee art
+            imgElem.src = 'park-moons.png';
+            artButtons.forEach((b, idx) => {
+                if(idx === 1) b.classList.add('active');
+                else b.classList.remove('active');
+            });
         } else {
             body.classList.remove('world-1q84');
             body.classList.add('world-1984');
             indicator.textContent = "Mode: 1984 (Tokyo Dusk)";
             shiftBtn.textContent = "Step Through the Exit";
             quoteElem.textContent = worldQuotes["1984"];
+            
+            // Switch gallery image to rooftop art
+            imgElem.src = 'tokyo-moons.png';
+            artButtons.forEach((b, idx) => {
+                if(idx === 0) b.classList.add('active');
+                else b.classList.remove('active');
+            });
         }
         quoteElem.style.opacity = '1';
         loadRecipe(currentRecipeKey);
