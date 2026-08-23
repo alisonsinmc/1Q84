@@ -33,6 +33,57 @@ body {
     position: relative;
 }
 
+/* Book Cover Intro Animation Styles */
+.book-cover {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background-color: #0b0b0e;
+    background-image: url('book-cover.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    z-index: 99999;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    padding-right: 10%;
+    transition: transform 1.2s cubic-bezier(0.65, 0, 0.35, 1), opacity 1s ease;
+    transform-origin: left center;
+}
+
+.book-cover.opened {
+    transform: rotateY(-90deg) scaleX(0.8);
+    opacity: 0;
+    pointer-events: none;
+}
+
+.book-page-cover {
+    background: rgba(0, 0, 0, 0.7);
+    border: 2px solid #ffffff;
+    padding: 30px 40px;
+    text-align: center;
+    box-shadow: 0 0 30px rgba(0, 0, 0, 0.9);
+    backdrop-filter: blur(4px);
+}
+
+#open-book-btn {
+    background: #ffffff;
+    border: 2px solid #000;
+    color: #000;
+    padding: 12px 25px;
+    font-family: 'Space Mono', monospace;
+    font-size: 0.85rem;
+    font-weight: bold;
+    cursor: pointer;
+    box-shadow: 4px 4px 0px #000;
+    transition: all 0.2s ease;
+}
+
+#open-book-btn:hover {
+    background: #93ffb2;
+    transform: translateY(-2px);
+}
+
 /* Wallpaper Background */
 .pixel-background {
     position: fixed;
@@ -84,8 +135,10 @@ body.world-1q84 .pixel-background {
     top: 50px; left: 20px;
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 10px;
     z-index: 1;
+    max-height: 85vh;
+    flex-wrap: wrap;
 }
 
 .desktop-icon {
@@ -104,9 +157,9 @@ body.world-1q84 .pixel-background {
     background: rgba(255, 255, 255, 0.15);
 }
 
-.icon-symbol { font-size: 1.6rem; margin-bottom: 2px; }
+.icon-symbol { font-size: 1.4rem; margin-bottom: 2px; }
 .icon-text {
-    font-size: 0.6rem; color: #fff;
+    font-size: 0.52rem; color: #fff;
     text-shadow: 1px 1px 2px #000;
     word-break: break-all;
 }
@@ -120,8 +173,8 @@ body.world-1q84 .pixel-background {
     border: 2px solid var(--ui-window-border);
     border-radius: 4px;
     box-shadow: 4px 4px 15px rgba(0, 0, 0, 0.6), var(--glow-effect);
-    width: 340px;
-    max-height: 75vh;
+    width: 320px;
+    max-height: 70vh;
     overflow-y: auto;
     z-index: 10;
     transition: border-color 0.5s ease, background-color 0.5s ease;
@@ -159,7 +212,7 @@ h2 { font-size: 0.95rem; text-transform: uppercase; margin-bottom: 8px; color: v
 /* Art Gallery Styles */
 .art-frame {
     width: 100%;
-    height: 150px;
+    height: 120px;
     background: #000;
     border: 1px inset var(--ui-window-border);
     margin-bottom: 10px;
@@ -182,6 +235,26 @@ h2 { font-size: 0.95rem; text-transform: uppercase; margin-bottom: 8px; color: v
     justify-content: center;
 }
 
+/* Recipe Book Flip Styles */
+.hidden { display: none !important; }
+.recipe-book-page {
+    background: rgba(255, 255, 255, 0.85);
+    border: 1px solid var(--ui-window-border);
+    padding: 12px;
+}
+.back-to-menu {
+    background: transparent; border: none; font-family: 'Space Mono', monospace;
+    font-size: 0.65rem; cursor: pointer; color: #333; margin-bottom: 8px; display: block;
+}
+.recipe-book-inner { display: flex; gap: 12px; align-items: center; }
+.recipe-image-frame {
+    width: 70px; height: 70px; background: #111; border: 1px solid var(--ui-window-border);
+    display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.recipe-art-ascii { font-size: 1.8rem; }
+.recipe-text-content h3 { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: #111; margin-bottom: 4px; }
+.recipe-text-content p { font-family: 'Courier New', monospace; font-size: 0.7rem; color: #222; line-height: 1.2; }
+
 /* Recipe Grid inside Windows */
 .recipe-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 6px; margin-bottom: 10px; }
 .recipe-card {
@@ -189,16 +262,16 @@ h2 { font-size: 0.95rem; text-transform: uppercase; margin-bottom: 8px; color: v
     padding: 6px; text-align: center; cursor: pointer;
 }
 .recipe-card:hover { background: rgba(255,255,255,0.2); }
-.sketch-frame { height: 40px; display: flex; align-items: center; justify-content: center; background: #111; }
-.ascii-art { font-size: 0.9rem; color: var(--accent-color-ui); }
-.recipe-card h3 { font-size: 0.65Num; margin-top: 4px; }
+.sketch-frame { height: 35px; display: flex; align-items: center; justify-content: center; background: #111; }
+.ascii-art { font-size: 0.85rem; color: var(--accent-color-ui); }
+.recipe-card h3 { font-size: 0.6rem; margin-top: 4px; }
 
 .recipe-box, .track-box, .terminal-box {
     background: var(--box-bg-terminal); color: var(--terminal-text);
-    padding: 10px; font-family: 'Courier New', monospace; font-size: 0.75rem;
-    border: 1px inset var(--ui-window-border); min-height: 50px;
+    padding: 10px; font-family: 'Courier New', monospace; font-size: 0.72rem;
+    border: 1px inset var(--ui-window-border); min-height: 45px;
 }
-.recipe-box h4, .track-box h4 { font-family: 'Cormorant Garamond', serif; font-size: 1rem; color: #fff; }
+.recipe-box h4, .track-box h4 { font-family: 'Cormorant Garamond', serif; font-size: 0.95rem; color: #fff; }
 
 /* Character Tabs & Playlist */
 .char-tabs, .marginalia-grid { display: flex; gap: 5px; margin-bottom: 10px; }
@@ -207,21 +280,114 @@ h2 { font-size: 0.95rem; text-transform: uppercase; margin-bottom: 8px; color: v
     padding: 4px 10px; font-size: 0.7rem; cursor: pointer; color: var(--text-color-ui);
 }
 .char-btn.active, .marginalia-btn.active { background: var(--ui-header-bg); color: #fff; }
-.char-card, .note-box { background: rgba(0,0,0,0.05); border: 1px solid var(--ui-window-border); padding: 10px; font-size: 0.75rem; }
+.char-card, .note-box { background: rgba(0,0,0,0.05); border: 1px solid var(--ui-window-border); padding: 10px; font-size: 0.72rem; }
 
 .playlist { display: flex; flex-direction: column; gap: 5px; margin-bottom: 10px; }
-.track-item { background: rgba(0,0,0,0.1); border: 1px solid var(--ui-window-border); padding: 6px; font-size: 0.75rem; cursor: pointer; }
+.track-item { background: rgba(0,0,0,0.1); border: 1px solid var(--ui-window-border); padding: 6px; font-size: 0.72rem; cursor: pointer; }
 .track-item:hover { background: rgba(255,255,255,0.2); }
 
 #summon-btn { background: rgba(0,0,0,0.1); border: 1px solid var(--ui-window-border); padding: 5px 10px; font-size: 0.7rem; cursor: pointer; margin-bottom: 8px; color: var(--text-color-ui); }
 
-#quote-box { font-family: 'Cormorant Garamond', serif; font-size: 1.1rem; font-style: italic; }
+#quote-box { font-family: 'Cormorant Garamond', serif; font-size: 1.05rem; font-style: italic; }
+
+/* Note Editor */
+.retro-textarea {
+    width: 100%; height: 80px; background: rgba(255, 255, 255, 0.8);
+    border: 1px inset var(--ui-window-border); padding: 8px;
+    font-family: 'Space Mono', monospace; font-size: 0.72rem; resize: none; margin-bottom: 6px; color: #000;
+}
+.editor-actions { display: flex; justify-content: space-between; align-items: center; }
+.save-status { font-size: 0.6rem; color: var(--accent-color-ui); opacity: 0; transition: opacity 0.3s; }
+
+/* Moon & Weather Widget */
+.widget-display {
+    display: flex; align-items: center; gap: 12px;
+    background: rgba(0,0,0,0.05); border: 1px solid var(--ui-window-border); padding: 10px;
+}
+.moon-icon-box { font-size: 2rem; }
+.widget-info p { font-size: 0.68rem; line-height: 1.2; margin-bottom: 2px; }
+
+/* Air Chrysalis Animation */
+.chrysalis-sphere {
+    width: 80px; height: 80px; margin: 0 auto 8px auto;
+    background: radial-gradient(circle, #fff 0%, #dcd7df 70%);
+    border: 2px solid var(--ui-window-border); border-radius: 50%;
+    display: flex; align-items: center; justify-content: center; cursor: pointer;
+}
+#chrysalis-emoji { font-size: 1.8rem; display: inline-block; animation: spin-chrysalis 6s linear infinite; }
+@keyframes spin-chrysalis { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+.chrysalis-caption { font-size: 0.6rem; opacity: 0.8; }
+
+/* Cipher & Glitch */
+.cipher-box {
+    background: var(--box-bg-terminal); color: var(--terminal-text);
+    padding: 8px; font-family: 'Courier New', monospace; font-size: 0.75rem;
+    border: 1px inset var(--ui-window-border); margin-bottom: 8px; text-align: center;
+}
+.retro-input {
+    width: 100%; background: rgba(255, 255, 255, 0.8); border: 1px inset var(--ui-window-border);
+    padding: 5px; font-family: 'Space Mono', monospace; font-size: 0.7rem; margin-bottom: 4px; color: #000;
+}
+.cipher-hint { font-size: 0.58rem; opacity: 0.7; }
+.glitch-controls { display: flex; flex-direction: column; gap: 6px; }
+
+body.scanlines::after {
+    content: " "; display: block; position: fixed; top: 0; left: 0; bottom: 0; right: 0;
+    background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.25) 50%);
+    background-size: 100% 4px; z-index: 99998; pointer-events: none;
+}
+@keyframes screenGlitch {
+    0% { transform: translate(0); }
+    20% { transform: translate(-3px, 3px); filter: hue-rotate(90deg); }
+    40% { transform: translate(-3px, -3px); }
+    60% { transform: translate(3px, 3px); filter: hue-rotate(180deg); }
+    80% { transform: translate(3px, -3px); }
+    100% { transform: translate(0); }
+}
+.glitch-active { animation: screenGlitch 0.3s ease infinite; }
+
+/* Gazette & Manuscript */
+.gazette-feed { display: flex; flex-direction: column; gap: 8px; }
+.gazette-article { background: rgba(0,0,0,0.05); border: 1px solid var(--ui-window-border); padding: 8px; }
+.gazette-article h4 { font-family: 'Cormorant Garamond', serif; font-size: 0.9rem; margin-bottom: 3px; }
+.gazette-article p { font-size: 0.68rem; line-height: 1.2; opacity: 0.9; }
+
+.manuscript-viewer {
+    background: #fff; color: #111; padding: 12px; font-family: 'Cormorant Garamond', serif;
+    font-size: 0.95rem; border: 1px inset var(--ui-window-border); line-height: 1.4;
+}
+
+/* Phone Switchboard */
+.phone-display {
+    background: #040806; color: #93ffb2; border: 1px inset var(--ui-window-border);
+    padding: 8px; font-family: 'Courier New', monospace; font-size: 1.1rem;
+    letter-spacing: 2px; margin-bottom: 10px; text-align: center;
+}
+.phone-keypad { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; margin-bottom: 8px; }
+.phone-btn {
+    background: rgba(0,0,0,0.1); border: 1px solid var(--ui-window-border);
+    padding: 8px; font-family: 'Space Mono', monospace; font-size: 0.75rem; cursor: pointer; color: var(--text-color-ui);
+}
+.phone-btn:hover { background: var(--ui-header-bg); color: #fff; }
+.phone-msg { font-size: 0.65rem; opacity: 0.8; font-style: italic; }
+
+/* Pixel Cat Companion Styles */
+.desktop-cat {
+    position: absolute; bottom: 40px; right: 50px; cursor: pointer; z-index: 5; user-select: none; transition: transform 0.3s ease;
+}
+.cat-sprite { font-size: 2.2rem; filter: drop-shadow(2px 2px 0px rgba(0,0,0,0.8)); display: block; animation: cat-breathe 3s ease-in-out infinite; }
+@keyframes cat-breathe { 0%, 100% { transform: translateY(0) scaleY(1); } 50% { transform: translateY(-3px) scaleY(1.05); } }
+.cat-bubble {
+    position: absolute; bottom: 45px; right: 0; background: var(--ui-window-bg);
+    border: 1px solid var(--ui-window-border); color: var(--text-color-ui); padding: 4px 8px;
+    font-size: 0.65rem; font-family: 'Space Mono', monospace; white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity 0.3s ease; box-shadow: 2px 2px 0px rgba(0,0,0,0.5);
+}
+.desktop-cat:hover .cat-bubble { opacity: 1; }
 
 /* Taskbar */
 .taskbar {
     position: fixed; bottom: 0; left: 0; width: 100%; height: 30px;
-    background: #2b2b2b; border-top: 2px solid #555;
-    display: flex; align-items: center; padding: 0 10px; z-index: 9999;
+    background: #2b2b2b; border-top: 2px solid #555; display: flex; align-items: center; padding: 0 10px; z-index: 9999;
 }
 .taskbar-start { background: #c0c0c0; border: 1px outset #fff; padding: 2px 10px; font-size: 0.75rem; font-weight: bold; cursor: pointer; color: #000; }
 .taskbar-items { display: flex; gap: 5px; margin-left: 10px; }
