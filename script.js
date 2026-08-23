@@ -350,7 +350,6 @@ function startPhotobooth() {
     const bgSelect = document.getElementById('booth-bg-select');
     const stripElem = document.getElementById('photobooth-strip');
     
-    // Explicitly apply the selected background image URL
     const selectedBg = bgSelect.value;
     stripElem.style.backgroundImage = `url('${selectedBg}')`;
     stripElem.style.backgroundSize = 'cover';
@@ -361,14 +360,13 @@ function startPhotobooth() {
     
     function captureFrameToCanvas(frameNum) {
         const frameElem = document.getElementById(`frame-${frameNum}`);
-        frameElem.innerHTML = ''; // Clear text
+        frameElem.innerHTML = '';
         
         const canvas = document.createElement('canvas');
         canvas.width = videoElem.videoWidth || 320;
         canvas.height = videoElem.videoHeight || 240;
         const ctx = canvas.getContext('2d');
         
-        // Flip horizontally to match mirror preview
         ctx.translate(canvas.width, 0);
         ctx.scale(-1, 1);
         ctx.drawImage(videoElem, 0, 0, canvas.width, canvas.height);
@@ -411,17 +409,85 @@ function startPhotobooth() {
     });
 }
 
-// Instagram Stories Share Simulation / Web Share API
+// Generate and Share Photostrip as a Real Image File (Fixes Airdrop / Link issue)
 function shareToIGStory() {
-    if (navigator.share) {
-        navigator.share({
-            title: '1Q84 Photobooth Strip',
-            text: 'Stepped into the dual-moon reality via @c7lison website 🌙✨',
-            url: window.location.href,
-        }).catch(() => {});
-    } else {
-        alert("Photobooth strip saved! Open Instagram and share your screenshot to your Story tag @c7lison 🤍");
-    }
+    const bgSelect = document.getElementById('booth-bg-select');
+    const selectedBg = bgSelect.value;
+
+    const canvas = document.createElement('canvas');
+    canvas.width = 300;
+    canvas.height = 480;
+    const ctx = canvas.getContext('2d');
+
+    const bgImg = new Image();
+    bgImg.crossOrigin = "anonymous";
+    bgImg.onload = () => {
+        ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
+        
+        // Add a semi-transparent white backing for the strip area
+        ctx.fillStyle = "rgba(255, 255, 255, 0.85)";
+        ctx.fillRect(25, 20, 250, 440);
+
+        ctx.fillStyle = "#111111";
+        ctx.font = "bold 13px 'Space Mono', monospace";
+        ctx.fillText("1Q84 Photobooth", 90, 40);
+
+        const frames = [
+            document.getElementById('frame-1'),
+            document.getElementById('frame-2'),
+            document.getElementById('frame-3')
+        ];
+
+        let loadedCount = 0;
+        let frameImages = [];
+
+        frames.forEach((frame, idx) => {
+            const bgStyle = frame.style.backgroundImage;
+            const match = bgStyle.match(/url\(['"]?(.*?)['"]?\)/);
+
+            if (match && match[1]) {
+                const img = new Image();
+                img.crossOrigin = "anonymous";
+                img.onload = () => {
+                    frameImages[idx] = img;
+                    loadedCount++;
+                    if (loadedCount === 3) finishCanvasExport(canvas, ctx, frameImages);
+                };
+                img.src = match[1];
+            } else {
+                loadedCount++;
+                if (loadedCount === 3) finishCanvasExport(canvas, ctx, frameImages);
+            }
+        });
+    };
+    bgImg.src = selectedBg;
+}
+
+function finishCanvasExport(canvas, ctx, images) {
+    images.forEach((img, idx) => {
+        if (img) {
+            const yOffset = 55 + (idx * 125);
+            ctx.drawImage(img, 45, yOffset, 210, 110);
+        }
+    });
+
+    canvas.toBlob(blob => {
+        const file = new File([blob], "1q84-photostrip.png", { type: "image/png" });
+
+        if (navigator.canShare && navigator.canShare({ files: [file] })) {
+            navigator.share({
+                files: [file],
+                title: '1Q84 Photobooth Strip',
+                text: 'Stepped into the dual-moon reality 🌙✨ @c7lison',
+            }).catch(() => {});
+        } else {
+            const link = document.createElement('a');
+            link.download = '1q84-photostrip.png';
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            alert("Photostrip image generated and downloaded! You can now drop it into your Instagram Story and tag @c7lison 🤍");
+        }
+    }, 'image/png');
 }
 
 // Phone
