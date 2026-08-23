@@ -65,23 +65,23 @@ function switchArt(artType, btnElem) {
     }
 }
 
-// Streamlined Recipe Book Flip
+// Recipe Book Flip with Custom Drawings
 const recipeData = {
     spaghetti: {
         title: "Midnight Spaghetti",
-        ascii: "🍝",
+        image: "spaghetti.png",
         "1984": "Water boils in roaring silence. Precise, grounded reality.",
         "1q84": "The water takes longer. You glance out at the <span class='altered-keyword'>second green moon</span>."
     },
     whiskey: {
         title: "Cutty Sark",
-        ascii: "🥃",
+        image: "whiskey.png",
         "1984": "A single crystal cube clinking in a dimly lit jazz bar.",
         "1q84": "Poured in shadows. The ice refuses to melt in this <span class='altered-keyword'>silence</span>."
     },
     sandwich: {
         title: "Toasted Sandwich",
-        ascii: "🥪",
+        image: "sandwich.png",
         "1984": "Warm cheese and butter eaten on a peaceful afternoon.",
         "1q84": "Toasted while a mysterious manuscript lies open."
     }
@@ -94,7 +94,7 @@ function openRecipeBook(dishKey) {
     document.getElementById('recipe-select-view').classList.add('hidden');
     document.getElementById('recipe-book-view').classList.remove('hidden');
 
-    document.getElementById('recipe-book-art').textContent = dish.ascii;
+    document.getElementById('recipe-book-img').src = dish.image;
     document.getElementById('recipe-book-title').textContent = dish.title;
     document.getElementById('recipe-book-desc').innerHTML = isAlternateReality ? dish["1q84"] : dish["1984"];
 }
