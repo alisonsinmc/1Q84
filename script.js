@@ -341,7 +341,7 @@ function scanRadar() {
     }, 1200);
 }
 
-// 3-Strip Live Webcam Photobooth Logic with 5-Sec Intervals & Selected Background
+// 3-Strip Live Webcam Photobooth Logic with Fixed Background Rendering
 function startPhotobooth() {
     const timerDisplay = document.getElementById('booth-timer');
     const startBtn = document.getElementById('start-booth-btn');
@@ -350,9 +350,11 @@ function startPhotobooth() {
     const bgSelect = document.getElementById('booth-bg-select');
     const stripElem = document.getElementById('photobooth-strip');
     
-    // Set strip background based on user selection
+    // Explicitly apply the selected background image URL
     const selectedBg = bgSelect.value;
     stripElem.style.backgroundImage = `url('${selectedBg}')`;
+    stripElem.style.backgroundSize = 'cover';
+    stripElem.style.backgroundPosition = 'center';
     
     startBtn.classList.add('hidden');
     shareBtn.classList.add('hidden');
@@ -361,7 +363,6 @@ function startPhotobooth() {
         const frameElem = document.getElementById(`frame-${frameNum}`);
         frameElem.innerHTML = ''; // Clear text
         
-        // Create snapshot canvas from live video
         const canvas = document.createElement('canvas');
         canvas.width = videoElem.videoWidth || 320;
         canvas.height = videoElem.videoHeight || 240;
@@ -374,6 +375,8 @@ function startPhotobooth() {
         
         const dataUrl = canvas.toDataURL('image/png');
         frameElem.style.backgroundImage = `url(${dataUrl})`;
+        frameElem.style.backgroundSize = 'cover';
+        frameElem.style.backgroundPosition = 'center';
     }
     
     function runCountdown(frameNum, callback) {
