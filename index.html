@@ -3,77 +3,104 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>1Q84 — A Digital Altarpiece</title>
+    <title>1Q84 — Retro Desktop Environment</title>
     <link rel="stylesheet" href="style.css">
-    <!-- Google Fonts for literary feel -->
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Space+Mono&display=swap" rel="stylesheet">
 </head>
 <body class="world-1984">
 
-    <!-- The Background Pixel Art Container -->
+    <!-- Background Wallpaper -->
     <div class="pixel-background"></div>
 
-    <!-- Main Content Overlay -->
-    <main class="content">
-        <header class="site-header">
-            <span class="tag">06:00 PM — Tokyo</span>
-            <h1 id="title">1984</h1>
-            <p id="description">The air is ordinary. The highway is quiet. Nothing has changed yet.</p>
-            <button id="shift-btn" onclick="toggleWorld()">Step Through the Exit</button>
+    <!-- Desktop Environment Container -->
+    <div class="desktop">
+
+        <!-- Top Navigation / Status Bar -->
+        <header class="desktop-header">
+            <div class="status-left">
+                <span id="world-indicator">Mode: 1984 (Tokyo Dusk)</span>
+            </div>
+            <div class="status-center">
+                <button id="shift-btn" onclick="toggleWorld()">Step Through the Exit</button>
+            </div>
+            <div class="status-right">
+                <span class="clock">06:00 PM</span>
+            </div>
         </header>
 
-        <!-- Culinary Section: ASCII Sketch Gallery & Rituals -->
-        <section class="culinary-container ui-window">
-            <div class="window-header">
-                <span class="window-title">Reminder: Midnight Kitchen</span>
-                <span class="window-controls">_ O X</span>
+        <!-- Desktop Grid Icons (Click to Open Windows) -->
+        <div class="icon-grid">
+            <div class="desktop-icon" onclick="openWindow('kitchen-win')">
+                <span class="icon-symbol">📁</span>
+                <span class="icon-text">Midnight_Kitchen.txt</span>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('dossier-win')">
+                <span class="icon-symbol">👤</span>
+                <span class="icon-text">Character_Dossier</span>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('music-win')">
+                <span class="icon-symbol">🎵</span>
+                <span class="icon-text">Classical_Player</span>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('entity-win')">
+                <span class="icon-symbol">👁️</span>
+                <span class="icon-text">Little_People.log</span>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('notes-win')">
+                <span class="icon-symbol">📝</span>
+                <span class="icon-text">Marginalia.doc</span>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('quotes-win')">
+                <span class="icon-symbol">💬</span>
+                <span class="icon-text">Air_Chrysalis.quote</span>
+            </div>
+        </div>
+
+        <!-- ==========================================
+             FLOATING WINDOWS CONTAINER
+             ========================================== -->
+
+        <!-- 1. Midnight Kitchen Window -->
+        <div id="kitchen-win" class="ui-window active-win" style="top: 50px; left: 50px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Reminder: Midnight_Kitchen.txt</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('kitchen-win')">_</button>
+                    <button onclick="closeWindow('kitchen-win')">X</button>
+                </div>
             </div>
             <div class="window-content">
                 <h2>Food as Ritual</h2>
-                <p class="section-subtitle">Click a notebook sketch to inspect the recipe and preparation ritual.</p>
-                
+                <p class="section-subtitle">Click a notebook sketch to inspect the recipe.</p>
                 <div class="recipe-grid">
-                    <!-- Sketch 1: Spaghetti -->
                     <div class="recipe-card" onclick="loadRecipe('spaghetti')">
-                        <div class="sketch-frame">
-                            <span class="ascii-art">~[ 🍝 ]~</span>
-                        </div>
-                        <h3>Simple Spaghetti</h3>
-                        <span class="recipe-tag">Aomame</span>
+                        <div class="sketch-frame"><span class="ascii-art">~[ 🍝 ]~</span></div>
+                        <h3>Spaghetti</h3>
                     </div>
-
-                    <!-- Sketch 2: Whiskey -->
                     <div class="recipe-card" onclick="loadRecipe('whiskey')">
-                        <div class="sketch-frame">
-                            <span class="ascii-art">[ 🥃 ]</span>
-                        </div>
+                        <div class="sketch-frame"><span class="ascii-art">[ 🥃 ]</span></div>
                         <h3>Cutty Sark</h3>
-                        <span class="recipe-tag">Bar Melancholy</span>
                     </div>
-
-                    <!-- Sketch 3: Sandwich -->
                     <div class="recipe-card" onclick="loadRecipe('sandwich')">
-                        <div class="sketch-frame">
-                            <span class="ascii-art">&lt;[ 🥪 ]&gt;</span>
-                        </div>
-                        <h3>Toasted Sandwich</h3>
-                        <span class="recipe-tag">Tengo</span>
+                        <div class="sketch-frame"><span class="ascii-art">&lt;[ 🥪 ]&gt;</span></div>
+                        <h3>Sandwich</h3>
                     </div>
                 </div>
-
-                <!-- Dynamic Recipe Display Box -->
                 <div id="recipe-display" class="recipe-box">
                     <h4 id="recipe-title">Select a sketch above...</h4>
-                    <p id="recipe-instructions">Cooking is a physical act. It grounds you when reality starts to shift.</p>
+                    <p id="recipe-instructions">Cooking is a physical act. It grounds you.</p>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- Character Section: Styled as "Spell Check" Window -->
-        <section class="characters-container ui-window">
-            <div class="window-header">
-                <span class="window-title">Dossier: The Two Solitudes</span>
-                <span class="window-controls">_ O X</span>
+        <!-- 2. Character Dossier Window -->
+        <div id="dossier-win" class="ui-window" style="top: 80px; left: 380px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Dossier: Character_Database</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('dossier-win')">_</button>
+                    <button onclick="closeWindow('dossier-win')">X</button>
+                </div>
             </div>
             <div class="window-content">
                 <div class="char-tabs">
@@ -82,97 +109,100 @@
                 </div>
                 <div id="char-display" class="char-card">
                     <h3 id="char-name">Aomame</h3>
-                    <p id="char-desc">A professional fitness instructor who leads a disciplined, ordinary life on the surface—navigating the standard city streets of Tokyo with sharp focus.</p>
+                    <p id="char-desc">A professional fitness instructor...</p>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- Classical Music Section: Styled as a Retro Media Player -->
-        <section class="music-container ui-window">
-            <div class="window-header">
-                <span class="window-title">Player: Classical Repertoire</span>
-                <span class="window-controls">_ O X</span>
+        <!-- 3. Classical Music Player Window -->
+        <div id="music-win" class="ui-window" style="top: 320px; left: 80px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Player: Classical_Repertoire</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('music-win')">_</button>
+                    <button onclick="closeWindow('music-win')">X</button>
+                </div>
             </div>
             <div class="window-content">
                 <h2>The Sound of the Shift</h2>
-                <p class="section-subtitle">Music is the key that unlocks alternate dimensions.</p>
-                
                 <div class="playlist">
                     <div class="track-item" onclick="playClassicalTrack('sinfonietta')">
-                        <span class="track-name">Leoš Janáček — Sinfonietta</span>
-                        <span class="track-tag">The 1Q84 Catalyst</span>
+                        <span class="track-name">Janáček — Sinfonietta</span>
                     </div>
                     <div class="track-item" onclick="playClassicalTrack('goldberg')">
-                        <span class="track-name">J.S. Bach — Goldberg Variations</span>
-                        <span class="track-tag">The Quiet Obsession</span>
+                        <span class="track-name">Bach — Goldberg Variations</span>
                     </div>
                 </div>
-
                 <div id="track-display" class="track-box">
-                    <h4 id="track-title">Select a composition above...</h4>
-                    <p id="track-desc">Allow the notes to alter the geometry of the room around you.</p>
+                    <h4 id="track-title">Select a composition...</h4>
+                    <p id="track-desc">Allow the notes to alter the geometry of the room.</p>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- Little People / Air Chrysalis Section -->
-        <section class="little-people-container ui-window">
-            <div class="window-header">
-                <span class="window-title">System Log: Unknown Entity</span>
-                <span class="window-controls">_ O X</span>
+        <!-- 4. Little People Window -->
+        <div id="entity-win" class="ui-window" style="top: 350px; left: 450px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">System Log: Unknown_Entity.log</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('entity-win')">_</button>
+                    <button onclick="closeWindow('entity-win')">X</button>
+                </div>
             </div>
             <div class="window-content">
                 <h2>The Little People</h2>
-                <p class="section-subtitle">They do not speak, but they weave everything together.</p>
-                
-                <button id="summon-btn" onclick="triggerLittlePeople()">Listen to the Silence</button>
-
+                <button id="summon-btn" onclick="triggerLittlePeople()">Listen to Silence</button>
                 <div id="little-people-display" class="terminal-box">
-                    <p id="lp-text">The room is quiet. Nothing is moving. Or so it appears.</p>
+                    <p id="lp-text">The room is quiet. Nothing is moving.</p>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- Marginalia Section: Reader Notes & Quotes -->
-        <section class="marginalia-container ui-window">
-            <div class="window-header">
-                <span class="window-title">Notepad: Reader Marginalia</span>
-                <span class="window-controls">_ O X</span>
+        <!-- 5. Reader Marginalia Window -->
+        <div id="notes-win" class="ui-window" style="top: 120px; left: 700px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Notepad: Reader_Marginalia.doc</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('notes-win')">_</button>
+                    <button onclick="closeWindow('notes-win')">X</button>
+                </div>
             </div>
             <div class="window-content">
                 <h2>Annotated Fragments</h2>
-                <p class="section-subtitle">Passages that hit too personally to ever show anyone else.</p>
-                
                 <div class="marginalia-grid">
-                    <button class="marginalia-btn active" onclick="loadNote('soul')">"Except My Soul"</button>
-                    <button class="marginalia-btn" onclick="loadNote('fear')">"Living as Myself"</button>
-                    <button class="marginalia-btn" onclick="loadNote('confusion')">"Blissfully Confused"</button>
+                    <button class="marginalia-btn active" onclick="loadNote('soul')">"Soul"</button>
+                    <button class="marginalia-btn" onclick="loadNote('fear')">"Fear"</button>
+                    <button class="marginalia-btn" onclick="loadNote('confusion')">"Confusion"</button>
                 </div>
-
                 <div id="note-display" class="note-box">
-                    <p id="note-text">"I don't have a thing except my soul." — Tengo (The weight of having nothing left to lose in the ordinary world.)</p>
+                    <p id="note-text">"I don't have a thing except my soul." — Tengo</p>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- Quotes Section: Styled as "Now Playing" Window -->
-        <section class="quotes-container ui-window">
-            <div class="window-header">
-                <span class="window-title">Now Playing: Fragments</span>
-                <span class="window-controls">_ O X</span>
+        <!-- 6. Quotes Window -->
+        <div id="quotes-win" class="ui-window" style="top: 450px; left: 750px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Air_Chrysalis.quote</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('quotes-win')">_</button>
+                    <button onclick="closeWindow('quotes-win')">X</button>
+                </div>
             </div>
             <div class="window-content">
-                <h2>From the Air Chrysalis</h2>
+                <h2>Fragment</h2>
                 <blockquote id="quote-box">
-                    "In this world, sincerity can sometimes save people, but it can also destroy them."
+                    "In this world, sincerity can sometimes save people..."
                 </blockquote>
             </div>
-        </section>
-    </main>
+        </div>
 
-    <!-- Footer Note -->
-    <footer>
-        <p>Janáček’s Sinfonietta playing faintly...</p>
+    </div><!-- End Desktop -->
+
+    <!-- Taskbar at bottom for reopening minimized windows -->
+    <footer class="taskbar" id="taskbar">
+        <span class="taskbar-start">❖ Start</span>
+        <div id="taskbar-items" class="taskbar-items"></div>
     </footer>
 
     <script src="script.js"></script>
