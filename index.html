@@ -1,28 +1,494 @@
-<!-- 16. 3-Strip Photobooth Window -->
-<div id="photobooth-win" class="ui-window" style="top: 100px; left: 880px;" onmousedown="bringToFront(this)">
-    <div class="window-header" onmousedown="startDrag(event, this)">
-        <span class="window-title">Photobooth.exe</span>
-        <div class="window-controls">
-            <button onclick="minimizeWindow('photobooth-win')">_</button>
-            <button onclick="closeWindow('photobooth-win')">X</button>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>1Q84 — The Archive Shelf</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300&family=Space+Mono&display=swap" rel="stylesheet">
+</head>
+<body class="world-1984">
+
+    <!-- Book Cover Opening Intro -->
+    <div id="book-intro" class="book-cover">
+        <div class="book-page-cover">
+            <button id="open-book-btn" onclick="openBook()">Open the Book & Step Inside</button>
         </div>
     </div>
-    <div class="window-content" style="text-align: center;">
-        <div class="world-status-tag">Active Reality: 1984</div>
-        <h2>1Q84 Photobooth</h2>
-        <p class="section-subtitle">Capture 3 frames in the alternate reality.</p>
-        
-        <!-- Photobooth Strip Preview -->
-        <div id="photobooth-strip" class="photo-strip">
-            <div class="photo-frame" id="frame-1"><span>Frame 1</span></div>
-            <div class="photo-frame" id="frame-2"><span>Frame 2</span></div>
-            <div class="photo-frame" id="frame-3"><span>Frame 3</span></div>
+
+    <!-- Wallpaper Background -->
+    <div class="pixel-background"></div>
+
+    <!-- Desktop Environment -->
+    <div class="desktop">
+
+        <!-- Top Status Bar -->
+        <header class="desktop-header">
+            <div class="status-left">
+                <span id="world-indicator">Mode: 1984 (Tokyo Dusk)</span>
+            </div>
+            <div class="status-center">
+                <button id="shift-btn" onclick="toggleWorld()">Step Through the Exit</button>
+            </div>
+            <div class="status-right">
+                <span class="clock">06:00 PM</span>
+            </div>
+        </header>
+
+        <!-- ==========================================
+             THE LIBRARY SHELF (Main Navigation Hub)
+             ========================================== -->
+        <div id="shelf-hub" class="ui-window shelf-window" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Archive_Index.shelf</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('shelf-hub')">_</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <h2>The Murakami Archive</h2>
+                <p class="section-subtitle">Select a compartment from the shelf to examine its contents.</p>
+                
+                <div class="shelf-sections">
+                    <div class="shelf-row">
+                        <span class="shelf-label">Shelf I: Rituals</span>
+                        <div class="shelf-items">
+                            <button class="shelf-btn" onclick="openWindow('art-win')">🖼️ Gallery</button>
+                            <button class="shelf-btn" onclick="openWindow('kitchen-win')">📁 Midnight Kitchen</button>
+                            <button class="shelf-btn" onclick="openWindow('editor-win')">📋 Scratchpad</button>
+                        </div>
+                    </div>
+
+                    <div class="shelf-row">
+                        <span class="shelf-label">Shelf II: Dossiers</span>
+                        <div class="shelf-items">
+                            <button class="shelf-btn" onclick="openWindow('dossier-win')">👤 Characters</button>
+                            <button class="shelf-btn" onclick="openWindow('notes-win')">📝 Marginalia</button>
+                            <button class="shelf-btn" onclick="openWindow('quotes-win')">💬 Quotes</button>
+                        </div>
+                    </div>
+
+                    <div class="shelf-row">
+                        <span class="shelf-label">Shelf III: Anomalies</span>
+                        <div class="shelf-items">
+                            <button class="shelf-btn" onclick="openWindow('entity-win')">👁️ Little People</button>
+                            <button class="shelf-btn" onclick="openWindow('widget-win')">🌕 Moon Widget</button>
+                            <button class="shelf-btn" onclick="openWindow('chrysalis-win')">🌀 Air Chrysalis</button>
+                        </div>
+                    </div>
+
+                    <div class="shelf-row">
+                        <span class="shelf-label">Shelf IV: Interactives</span>
+                        <div class="shelf-items">
+                            <button class="shelf-btn" onclick="openWindow('music-win')">🎵 Classical Player</button>
+                            <button class="shelf-btn" onclick="openWindow('cipher-win')">🔏 Cipher Decoder</button>
+                            <button class="shelf-btn" onclick="openWindow('glitch-win')">📡 LP Radar</button>
+                            <button class="shelf-btn" onclick="openWindow('gazette-win')">📰 Gazette</button>
+                            <button class="shelf-btn" onclick="openWindow('manuscript-win')">📖 Manuscript</button>
+                            <button class="shelf-btn" onclick="openWindow('phone-win')">📞 Hotel Phone</button>
+                            <button class="shelf-btn" onclick="openWindow('photobooth-win')">📸 Photobooth</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="photobooth-controls">
-            <div id="booth-timer" class="booth-timer-display">Ready</div>
-            <button id="start-booth-btn" class="char-btn" onclick="startPhotobooth()">Take 3-Strip Photo</button>
-            <button id="share-ig-btn" class="char-btn hidden" onclick="shareToIGStory()">Share to IG Stories</button>
+        <!-- ==========================================
+             FLOATING WINDOWS
+             ========================================== -->
+
+        <!-- 1. Artwork Gallery Window -->
+        <div id="art-win" class="ui-window minimized" style="top: 80px; left: 470px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Gallery: Tokyo_ & _Moons.png</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('art-win')">_</button>
+                    <button onclick="closeWindow('art-win')">X</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="world-status-tag">Active Reality: 1984</div>
+                <h2>Visualizing the Shift</h2>
+                <p class="section-subtitle">Active world illustration:</p>
+                <div class="art-frame">
+                    <img id="active-artwork" src="tokyo-moons.png" alt="1Q84 Artwork" class="desktop-art-img">
+                </div>
+                <div class="art-switcher">
+                    <button class="char-btn active" onclick="switchArt('tokyo', this)">Rooftops</button>
+                    <button class="char-btn" onclick="switchArt('park', this)">Park & Coffee</button>
+                </div>
+            </div>
         </div>
-    </div>
-</div>
+
+        <!-- 2. Midnight Kitchen Window -->
+        <div id="kitchen-win" class="ui-window minimized" style="top: 100px; left: 500px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Reminder: Midnight_Kitchen.txt</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('kitchen-win')">_</button>
+                    <button onclick="closeWindow('kitchen-win')">X</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="world-status-tag">Active Reality: 1984</div>
+                <h2>Food as Ritual</h2>
+                <p class="section-subtitle">Click a recipe card to flip open the book.</p>
+                
+                <div id="recipe-select-view" class="recipe-grid">
+                    <div class="recipe-card" onclick="openRecipeBook('spaghetti')">
+                        <div class="sketch-frame"><img src="spaghetti.png" alt="Spaghetti"></div>
+                        <h3>Spaghetti</h3>
+                    </div>
+                    <div class="recipe-card" onclick="openRecipeBook('whiskey')">
+                        <div class="sketch-frame"><img src="whiskey.png" alt="Cutty Sark"></div>
+                        <h3>Cutty Sark</h3>
+                    </div>
+                    <div class="recipe-card" onclick="openRecipeBook('sandwich')">
+                        <div class="sketch-frame"><img src="sandwich.png" alt="Sandwich"></div>
+                        <h3>Sandwich</h3>
+                    </div>
+                </div>
+
+                <div id="recipe-book-view" class="recipe-book-page hidden">
+                    <button class="back-to-menu" onclick="closeRecipeBook()">← Back to Index</button>
+                    <div class="recipe-book-inner">
+                        <div class="recipe-image-frame">
+                            <img id="recipe-book-img" src="" alt="Recipe Drawing" class="recipe-drawn-img">
+                        </div>
+                        <div class="recipe-text-content">
+                            <h3 id="recipe-book-title">Title</h3>
+                            <p id="recipe-book-desc">Desc...</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 3. Character Dossier Window -->
+        <div id="dossier-win" class="ui-window minimized" style="top: 120px; left: 530px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Dossier: Character_Database</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('dossier-win')">_</button>
+                    <button onclick="closeWindow('dossier-win')">X</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="world-status-tag">Active Reality: 1984</div>
+                <div class="char-tabs">
+                    <button class="char-btn active" onclick="loadCharacter('aomame')">Aomame</button>
+                    <button class="char-btn" onclick="loadCharacter('tengo')">Tengo</button>
+                </div>
+                
+                <div class="dossier-img-frame">
+                    <img id="char-image" src="aomame.png" alt="Character Portrait" class="window-portrait">
+                </div>
+
+                <div id="char-display" class="char-card">
+                    <h3 id="char-name">Aomame</h3>
+                    <p id="char-desc">• Role: Fitness Instructor / Assassin<br>• Status: Navigating ordinary Tokyo streets.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 4. Classical Music Player Window -->
+        <div id="music-win" class="ui-window minimized" style="top: 140px; left: 560px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Player: Classical_Repertoire</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('music-win')">_</button>
+                    <button onclick="closeWindow('music-win')">X</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="world-status-tag">Active Reality: 1984</div>
+                <h2>The Sound of the Shift</h2>
+                <div class="playlist">
+                    <div class="track-item" onclick="playClassicalTrack('sinfonietta')"><span class="track-name">Janáček — Sinfonietta</span></div>
+                    <div class="track-item" onclick="playClassicalTrack('goldberg')"><span class="track-name">Bach — Goldberg Variations</span></div>
+                </div>
+                <div id="track-display" class="track-box">
+                    <h4 id="track-title">Select a composition...</h4>
+                    <p id="track-desc">Allow the notes to alter the room.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. Little People Window -->
+        <div id="entity-win" class="ui-window minimized" style="top: 160px; left: 590px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">System Log: Unknown_Entity.log</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('entity-win')">_</button>
+                    <button onclick="closeWindow('entity-win')">X</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="world-status-tag">Active Reality: 1984</div>
+                <h2>The Little People</h2>
+                <button id="summon-btn" onclick="triggerLittlePeople()">Listen to Silence</button>
+                <div id="little-people-display" class="terminal-box">
+                    <p id="lp-text">The room is quiet. Nothing is moving.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. Reader Marginalia Window -->
+        <div id="notes-win" class="ui-window minimized" style="top: 180px; left: 620px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Notepad: Reader_Marginalia.doc</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('notes-win')">_</button>
+                    <button onclick="closeWindow('notes-win')">X</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="world-status-tag">Active Reality: 1984</div>
+                <h2>Annotated Fragments</h2>
+                <div class="marginalia-grid">
+                    <button class="marginalia-btn active" onclick="loadNote('soul')">"Soul"</button>
+                    <button class="marginalia-btn" onclick="loadNote('fear')">"Fear"</button>
+                    <button class="marginalia-btn" onclick="loadNote('confusion')">"Confusion"</button>
+                </div>
+                <div id="note-display" class="note-box">
+                    <p id="note-text">"I don't have a thing except my soul." — Tengo</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. Quotes Window -->
+        <div id="quotes-win" class="ui-window minimized" style="top: 200px; left: 650px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Air_Chrysalis.quote</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('quotes-win')">_</button>
+                    <button onclick="closeWindow('quotes-win')">X</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="world-status-tag">Active Reality: 1984</div>
+                <h2>Fragment</h2>
+                <blockquote id="quote-box">"In this world, sincerity can sometimes save people..."</blockquote>
+            </div>
+        </div>
+
+        <!-- 8. Note Editor Window -->
+        <div id="editor-win" class="ui-window minimized" style="top: 220px; left: 680px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Note_Editor.exe</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('editor-win')">_</button>
+                    <button onclick="closeWindow('editor-win')">X</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <h2>Scratchpad</h2>
+                <textarea id="user-notepad" class="retro-textarea" placeholder="Write something into the silence..."></textarea>
+                <div class="editor-actions">
+                    <button class="char-btn" onclick="saveNotePad()">Save</button>
+                    <span id="save-status" class="save-status">Saved</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 9. Moon Widget Window -->
+        <div id="widget-win" class="ui-window minimized" style="top: 240px; left: 710px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Moon_Widget.exe</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('widget-win')">_</button>
+                    <button onclick="closeWindow('widget-win')">X</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <div class="world-status-tag">Active Reality: 1984</div>
+                <h2>Atmosphere Monitor</h2>
+                <div class="widget-display">
+                    <div class="moon-icon-box" id="widget-moon-icon">🌕</div>
+                    <div class="widget-info">
+                        <p id="widget-status"><strong>Sky:</strong> Ordinary dusk.</p>
+                        <p id="widget-humidity"><strong>Density:</strong> Normal (1.0x)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 10. Air Chrysalis Animation Window -->
+        <div id="chrysalis-win" class="ui-window minimized" style="top: 260px; left: 740px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Air_Chrysalis.ani</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('chrysalis-win')">_</button>
+                    <button onclick="closeWindow('chrysalis-win')">X</button>
+                </div>
+            </div>
+            <div class="window-content" style="text-align: center;">
+                <h2>The Cocoon</h2>
+                <div class="chrysalis-sphere" onclick="pulseChrysalis()">
+                    <span id="chrysalis-emoji">🧶</span>
+                </div>
+                <p id="chrysalis-status" class="chrysalis-caption">Click to accelerate.</p>
+            </div>
+        </div>
+
+        <!-- 11. Cipher Decoder Window -->
+        <div id="cipher-win" class="ui-window minimized" style="top: 280px; left: 770px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Cipher_Decoder.exe</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('cipher-win')">_</button>
+                    <button onclick="closeWindow('cipher-win')">X</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <h2>Little People Cipher</h2>
+                <div class="cipher-box"><p id="encrypted-text">Gsv rmwvi rh nznrmt.</p></div>
+                <input type="text" id="cipher-input" class="retro-input" placeholder="Decode message..." onkeyup="checkCipher(event)">
+                <p id="cipher-feedback" class="cipher-hint">Hint: Atbash Cipher</p>
+            </div>
+        </div>
+
+        <!-- 12. Little People Radar Window -->
+        <div id="glitch-win" class="ui-window minimized" style="top: 300px; left: 800px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Little_People_Radar.exe</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('glitch-win')">_</button>
+                    <button onclick="closeWindow('glitch-win')">X</button>
+                </div>
+            </div>
+            <div class="window-content" style="text-align: center;">
+                <div class="world-status-tag">Active Reality: 1984</div>
+                <h2>Entity Scanner</h2>
+                <p class="section-subtitle">Scanning airspace for weightless entities.</p>
+                
+                <div id="lp-image-container" class="lp-image-frame hidden">
+                    <img src="little-people.png" alt="Little People Detected" class="lp-scanned-img">
+                </div>
+
+                <div class="radar-screen" id="radar-screen-elem">
+                    <div class="radar-sweep"></div>
+                    <div class="radar-blip" id="radar-blip"></div>
+                </div>
+                <button class="char-btn" style="margin-top: 10px;" onclick="scanRadar()">Calibrate Frequency</button>
+                <p id="radar-status" class="radar-msg" style="font-size: 0.68rem; margin-top: 6px; opacity: 0.8;">Status: Clear. No shadows detected.</p>
+            </div>
+        </div>
+
+        <!-- 13. Tokyo Gazette Window -->
+        <div id="gazette-win" class="ui-window minimized" style="top: 320px; left: 830px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Tokyo_Gazette.exe</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('gazette-win')">_</button>
+                    <button onclick="closeWindow('gazette-win')">X</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <h2>Daily News</h2>
+                <div class="gazette-feed">
+                    <article class="gazette-article">
+                        <h4>Bizarre Cult Activity</h4>
+                        <p>Authorities note unusual gatherings surrounding the Leading Group...</p>
+                    </article>
+                </div>
+            </div>
+        </div>
+
+        <!-- 14. Manuscript Reader Window -->
+        <div id="manuscript-win" class="ui-window minimized" style="top: 340px; left: 860px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Air_Chrysalis_Draft.pdf</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('manuscript-win')">_</button>
+                    <button onclick="closeWindow('manuscript-win')">X</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <h2>Dictation Excerpt</h2>
+                <div class="manuscript-viewer">
+                    <p><em>"In the depths of the forest, the chrysalis is spun..."</em></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 15. Hotel Phone Window -->
+        <div id="phone-win" class="ui-window minimized" style="top: 360px; left: 890px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Hotel_Phone.exe</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('phone-win')">_</button>
+                    <button onclick="closeWindow('phone-win')">X</button>
+                </div>
+            </div>
+            <div class="window-content" style="text-align: center;">
+                <h2>Switchboard</h2>
+                <div class="phone-display"><span id="phone-screen">---</span></div>
+                <div class="phone-keypad">
+                    <button class="phone-btn" onclick="pressPhone('1')">1</button>
+                    <button class="phone-btn" onclick="pressPhone('2')">2</button>
+                    <button class="phone-btn" onclick="pressPhone('3')">3</button>
+                    <button class="phone-btn" onclick="pressPhone('4')">4</button>
+                    <button class="phone-btn" onclick="pressPhone('5')">5</button>
+                    <button class="phone-btn" onclick="pressPhone('6')">6</button>
+                    <button class="phone-btn" onclick="pressPhone('7')">7</button>
+                    <button class="phone-btn" onclick="pressPhone('8')">8</button>
+                    <button class="phone-btn" onclick="pressPhone('9')">9</button>
+                    <button class="phone-btn" onclick="pressPhone('*')">*</button>
+                    <button class="phone-btn" onclick="pressPhone('0')">0</button>
+                    <button class="phone-btn" onclick="callPhone()">CALL</button>
+                </div>
+                <p id="phone-status" class="phone-msg">Receiver resting.</p>
+            </div>
+        </div>
+
+        <!-- 16. 3-Strip Photobooth Window (Visible on Desktop) -->
+        <div id="photobooth-win" class="ui-window" style="top: 90px; left: 850px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Photobooth.exe</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('photobooth-win')">_</button>
+                    <button onclick="closeWindow('photobooth-win')">X</button>
+                </div>
+            </div>
+            <div class="window-content" style="text-align: center;">
+                <div class="world-status-tag">Active Reality: 1984</div>
+                <h2>1Q84 Photobooth</h2>
+                <p class="section-subtitle">Capture 3 frames in the alternate reality.</p>
+                
+                <div id="photobooth-strip" class="photo-strip">
+                    <div class="photo-frame" id="frame-1"><span>Frame 1</span></div>
+                    <div class="photo-frame" id="frame-2"><span>Frame 2</span></div>
+                    <div class="photo-frame" id="frame-3"><span>Frame 3</span></div>
+                </div>
+
+                <div class="photobooth-controls">
+                    <div id="booth-timer" class="booth-timer-display">Ready</div>
+                    <button id="start-booth-btn" class="char-btn" onclick="startPhotobooth()">Take 3-Strip Photo</button>
+                    <button id="share-ig-btn" class="char-btn hidden" onclick="shareToIGStory()">Share to IG Stories</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pixel Cat Companion -->
+        <div class="desktop-cat" id="desktop-cat" title="A mysterious cat is watching you...">
+            <span class="cat-sprite">🐈‍⬛</span>
+            <div class="cat-bubble" id="cat-bubble">Meow...</div>
+        </div>
+
+    </div><!-- End Desktop -->
+
+    <!-- Taskbar -->
+    <footer class="taskbar" id="taskbar">
+        <div class="taskbar-left-group">
+            <span class="taskbar-start" onclick="openWindow('shelf-hub')">❖ Index Shelf</span>
+            <div id="taskbar-items" class="taskbar-items"></div>
+        </div>
+        <div class="taskbar-right-creator">
+            <span>Made by Alison S</span>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
