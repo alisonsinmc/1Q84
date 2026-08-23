@@ -1,5 +1,4 @@
 let isAlternateReality = false;
-let isPlaying = false;
 
 // Quotes matching the world state
 const quotes = {
@@ -23,7 +22,7 @@ function toggleWorld() {
         if (isAlternateReality) {
             body.classList.remove('world-1984');
             body.classList.add('world-1q84');
-
+            
             tag.textContent = "Air Chrysalis — Sector 9";
             title.textContent = "1Q84";
             description.textContent = "The air feels heavier here. Look closely at the sky—there are two moons now. You have stepped off the regular highway.";
@@ -32,7 +31,7 @@ function toggleWorld() {
         } else {
             body.classList.remove('world-1q84');
             body.classList.add('world-1984');
-
+            
             tag.textContent = "06:00 PM — Tokyo";
             title.textContent = "1984";
             description.textContent = "The air is ordinary. The highway is quiet. Nothing has changed yet.";
@@ -68,7 +67,7 @@ function loadRecipe(dishKey) {
     const boxElem = document.getElementById('recipe-display');
 
     boxElem.style.opacity = '0.3';
-
+    
     setTimeout(() => {
         titleElem.textContent = dish.title;
         textElem.textContent = dish.text;
@@ -114,21 +113,60 @@ function loadCharacter(charKey) {
     }, 200);
 }
 
-// Audio Toggle Function
-function toggleAudio() {
-    const audio = document.getElementById('ambient-audio');
-    const status = document.getElementById('audio-status');
-    const toggleBtn = document.getElementById('audio-toggle');
-
-    isPlaying = !isPlaying;
-
-    if (isPlaying) {
-        audio.play().catch(e => console.log("Audio play blocked by browser policy:", e));
-        status.textContent = "Playing (Atmosphere)";
-        toggleBtn.textContent = "❚❚ Pause Atmosphere";
-    } else {
-        audio.pause();
-        status.textContent = "Muted";
-        toggleBtn.textContent = "♫ Play Atmosphere";
+// Classical Music Database
+const classicalTracks = {
+    sinfonietta: {
+        title: "Leoš Janáček — Sinfonietta",
+        desc: "“Are you familiar with the Sinfonietta by Janáček?” The fierce, majestic fanfare of the brass instruments opens the novel. If you hear this piece and notice something slightly off with the sky, you are no longer in 1984."
+    },
+    goldberg: {
+        title: "J.S. Bach — Goldberg Variations",
+        desc: "A cornerstone of Murakami's atmospheric soundscapes. The meticulous, looping beauty of the variations provides a meditative anchor while characters navigate deeply surreal, lonely urban landscapes."
     }
+};
+
+function playClassicalTrack(trackKey) {
+    const track = classicalTracks[trackKey];
+    if (!track) return;
+
+    const titleElem = document.getElementById('track-title');
+    const descElem = document.getElementById('track-desc');
+    const boxElem = document.getElementById('track-display');
+
+    boxElem.style.opacity = '0.3';
+    
+    setTimeout(() => {
+        titleElem.textContent = track.title;
+        descElem.textContent = track.desc;
+        boxElem.style.opacity = '1';
+    }, 200);
+}
+
+// Marginalia Database
+const marginaliaNotes = {
+    soul: "\"I don't have a thing except my soul.\" — Tengo",
+    fear: "\"Are you afraid to die? Not particularly - living as myself scares me more.\"",
+    confusion: "The unique experience of being blissfully confused—where nothing is fully explained, but the prose and mood pull you completely under."
+};
+
+function loadNote(noteKey) {
+    const note = marginaliaNotes[noteKey];
+    if (!note) return;
+
+    const noteElem = document.getElementById('note-text');
+    const buttons = document.querySelectorAll('.marginalia-btn');
+
+    buttons.forEach(btn => {
+        if(btn.getAttribute('onclick').includes(noteKey)) {
+            btn.classList.add('active');
+        } else {
+            btn.classList.remove('active');
+        }
+    });
+
+    noteElem.style.opacity = '0';
+    setTimeout(() => {
+        noteElem.textContent = note;
+        noteElem.style.opacity = '1';
+    }, 200);
 }
