@@ -269,7 +269,24 @@ function saveNotePad() {
 document.addEventListener('DOMContentLoaded', () => {
     const savedNote = localStorage.getItem('1q84_scratchpad');
     if(savedNote) { document.getElementById('user-notepad').value = savedNote; }
+    
+    // Initialize Webcam for Photobooth
+    initWebcam();
 });
+
+// Initialize Webcam Stream
+function initWebcam() {
+    const videoElem = document.getElementById('booth-webcam');
+    if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                videoElem.srcObject = stream;
+            })
+            .catch(err => {
+                console.log("Webcam access denied or unavailable:", err);
+            });
+    }
+}
 
 // Chrysalis Spin
 let spinSpeed = 6;
@@ -324,16 +341,40 @@ function scanRadar() {
     }, 1200);
 }
 
-// 3-Strip Photobooth Logic with 5-Second Intervals
+// 3-Strip Live Webcam Photobooth Logic with 5-Sec Intervals & Selected Background
 function startPhotobooth() {
     const timerDisplay = document.getElementById('booth-timer');
     const startBtn = document.getElementById('start-booth-btn');
     const shareBtn = document.getElementById('share-ig-btn');
+    const videoElem = document.getElementById('booth-webcam');
+    const bgSelect = document.getElementById('booth-bg-select');
+    const stripElem = document.getElementById('photobooth-strip');
+    
+    // Set strip background based on user selection
+    const selectedBg = bgSelect.value;
+    stripElem.style.backgroundImage = `url('${selectedBg}')`;
     
     startBtn.classList.add('hidden');
     shareBtn.classList.add('hidden');
     
-    const activeBg = isAlternateReality ? 'url(park-moons.png)' : 'url(tokyo-moons.png)';
+    function captureFrameToCanvas(frameNum) {
+        const frameElem = document.getElementById(`frame-${frameNum}`);
+        frameElem.innerHTML = ''; // Clear text
+        
+        // Create snapshot canvas from live video
+        const canvas = document.createElement('canvas');
+        canvas.width = videoElem.videoWidth || 320;
+        canvas.height = videoElem.videoHeight || 240;
+        const ctx = canvas.getContext('2d');
+        
+        // Flip horizontally to match mirror preview
+        ctx.translate(canvas.width, 0);
+        ctx.scale(-1, 1);
+        ctx.drawImage(videoElem, 0, 0, canvas.width, canvas.height);
+        
+        const dataUrl = canvas.toDataURL('image/png');
+        frameElem.style.backgroundImage = `url(${dataUrl})`;
+    }
     
     function runCountdown(frameNum, callback) {
         let timeLeft = 5;
@@ -345,10 +386,7 @@ function startPhotobooth() {
                 timerDisplay.textContent = `Pose for Frame ${frameNum}: ${timeLeft}s`;
             } else {
                 clearInterval(interval);
-                const frameElem = document.getElementById(`frame-${frameNum}`);
-                frameElem.style.backgroundImage = activeBg;
-                frameElem.innerHTML = '';
-                
+                captureFrameToCanvas(frameNum);
                 if (callback) callback();
             }
         }, 1000);
