@@ -341,7 +341,7 @@ function scanRadar() {
     }, 1200);
 }
 
-// 3-Strip Live Webcam Photobooth Logic with Correct Aspect Ratio
+// 3-Strip Live Webcam Photobooth Logic
 function startPhotobooth() {
     const timerDisplay = document.getElementById('booth-timer');
     const startBtn = document.getElementById('start-booth-btn');
@@ -409,34 +409,21 @@ function startPhotobooth() {
     });
 }
 
-// Generate and Share Photostrip with Proper Scaling & Wallpaper Background
+// Generate Exact Match Photostrip Image (Wallpaper Background + 3 Un-stretched Frames)
 function shareToIGStory() {
     const bgSelect = document.getElementById('booth-bg-select');
     const selectedBg = bgSelect.value;
 
     const canvas = document.createElement('canvas');
     canvas.width = 320;
-    canvas.height = 500;
+    canvas.height = 510;
     const ctx = canvas.getContext('2d');
 
     const bgImg = new Image();
     bgImg.crossOrigin = "anonymous";
     bgImg.onload = () => {
-        // Draw the background wallpaper across the entire strip canvas
+        // Draw wallpaper background across the entire canvas (filling the border)
         ctx.drawImage(bgImg, 0, 0, canvas.width, canvas.height);
-        
-        // Add a slight dark overlay so the strip stands out nicely
-        ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
-        ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-        // Draw white card background for the photostrip body
-        ctx.fillStyle = "#ffffff";
-        ctx.fillRect(20, 20, 280, 460);
-
-        ctx.fillStyle = "#111111";
-        ctx.font = "bold 13px 'Space Mono', monospace";
-        ctx.textAlign = "center";
-        ctx.fillText("1Q84 Photobooth", canvas.width / 2, 42);
 
         const frames = [
             document.getElementById('frame-1'),
@@ -472,12 +459,13 @@ function shareToIGStory() {
 function finishCanvasExport(canvas, ctx, images) {
     images.forEach((img, idx) => {
         if (img) {
-            const x = 35;
-            const y = 55 + (idx * 130);
-            const targetW = 250;
-            const targetH = 115;
+            // Match the exact stacked layout from your screenshot
+            const x = 15;
+            const y = 15 + (idx * 165);
+            const targetW = 290;
+            const targetH = 150;
 
-            // Maintain correct aspect ratio to prevent stretching/distortion
+            // Crop-to-fit (object-fit: cover equivalent) so images never stretch
             const imgRatio = img.width / img.height;
             const targetRatio = targetW / targetH;
             
@@ -493,6 +481,11 @@ function finishCanvasExport(canvas, ctx, images) {
                 sH = img.width / targetRatio;
                 sY = (img.height - sH) / 2;
             }
+
+            // Draw dark retro border frame around each photo slot
+            ctx.strokeStyle = "#1a1a1a";
+            ctx.lineWidth = 3;
+            ctx.strokeRect(x - 2, y - 2, targetW + 4, targetH + 4);
 
             ctx.drawImage(img, sX, sY, sW, sH, x, y, targetW, targetH);
         }
@@ -512,7 +505,7 @@ function finishCanvasExport(canvas, ctx, images) {
             link.download = '1q84-photostrip.png';
             link.href = canvas.toDataURL('image/png');
             link.click();
-            alert("Photostrip image generated with background! You can now drop it into your Instagram Story and tag @c7lison 🤍");
+            alert("Photostrip image generated! You can now drop it into your Instagram Story and tag @c7lison 🤍");
         }
     }, 'image/png');
 }
