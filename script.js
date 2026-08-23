@@ -1,13 +1,16 @@
 let isAlternateReality = false;
 let highestZ = 100;
 
-// Bring clicked window to front
+function openBook() {
+    const bookCover = document.getElementById('book-intro');
+    bookCover.classList.add('opened');
+}
+
 function bringToFront(win) {
     highestZ++;
     win.style.zIndex = highestZ;
 }
 
-// Window Management Engine
 function openWindow(winId) {
     const win = document.getElementById(winId);
     win.classList.remove('minimized');
@@ -22,7 +25,6 @@ function minimizeWindow(winId) {
     document.getElementById(winId).classList.add('minimized');
 }
 
-// Draggable Window Logic
 let activeWindow = null;
 let offsetX = 0, offsetY = 0;
 
@@ -63,28 +65,48 @@ function switchArt(artType, btnElem) {
     }
 }
 
-// Databases for World States
-const worldQuotes = {
-    "1984": "“In this world, sincerity can sometimes save people, but it can also destroy them.”",
-    "1Q84": "“I think you lost all interest in this world. You were disappointed and discouraged, and lost interest in everything. So you abandoned your physical body. You went to a world apart and you're living a different kind of life there. In a world inside you.”"
-};
-
-const recipes = {
+// Recipe Book Flip Logic
+const recipeData = {
     spaghetti: {
-        title: "Midnight Spaghetti",
-        "1984": "Boil a generous amount of water. Drop the spaghetti in only when roaring. Simple, precise, and grounded.",
-        "1q84": "The water takes longer to boil. You keep glancing out at the second green moon while waiting."
+        title: "Aomame's Midnight Spaghetti",
+        ascii: "🍝",
+        "1984": "Boil a generous amount of water. Drop the spaghetti in only when roaring. Simple, precise, and grounded in reality.",
+        "1q84": "The water takes longer to boil. You keep glancing out at the second green moon while waiting for the exact minute."
     },
     whiskey: {
         title: "Cutty Sark on the Rocks",
-        "1984": "A single ice cube clinking against a heavy lowball glass in a standard dimly lit jazz bar.",
-        "1q84": "Poured slowly in the shadows. The ice doesn't melt normally; the drink tastes sharper and surreal."
+        ascii: "🥃",
+        "1984": "A single crystal-clear ice cube clinking against a heavy lowball glass in a standard dimly lit jazz bar.",
+        "1q84": "Poured slowly in the shadows. The ice doesn't melt normally; the drink tastes sharper, carrying an eerie silence."
     },
     sandwich: {
-        title: "Toasted Cheese Sandwich",
-        "1984": "White bread, cheddar, and butter eaten on a peaceful afternoon.",
-        "1q84": "Toasted while a silent, mysterious manuscript lies open on the desk."
+        title: "Tengo's Toasted Sandwich",
+        ascii: "🥪",
+        "1984": "Two slices of white bread, cheddar, and butter toasted until golden while staring at a blank notebook.",
+        "1q84": "Toasted while a silent, mysterious manuscript lies open on the desk, acting as an anchor to your memories."
     }
+};
+
+function openRecipeBook(dishKey) {
+    const dish = recipeData[dishKey];
+    if(!dish) return;
+
+    document.getElementById('recipe-select-view').classList.add('hidden');
+    document.getElementById('recipe-book-view').classList.remove('hidden');
+
+    document.getElementById('recipe-book-art').textContent = dish.ascii;
+    document.getElementById('recipe-book-title').textContent = dish.title;
+    document.getElementById('recipe-book-desc').textContent = isAlternateReality ? dish["1q84"] : dish["1984"];
+}
+
+function closeRecipeBook() {
+    document.getElementById('recipe-book-view').classList.add('hidden');
+    document.getElementById('recipe-select-view').classList.remove('hidden');
+}
+
+const worldQuotes = {
+    "1984": "“In this world, sincerity can sometimes save people, but it can also destroy them.”",
+    "1Q84": "“I think you lost all interest in this world. You were disappointed and discouraged, and lost interest in everything. So you abandoned your physical body. You went to a world apart and you're living a different kind of life there. In a world inside you.”"
 };
 
 const characters = {
@@ -115,7 +137,6 @@ const marginaliaNotes = {
     }
 };
 
-// Toggle World Function (Syncs wallpaper art, window themes, and text content)
 function toggleWorld() {
     isAlternateReality = !isAlternateReality;
     const body = document.body;
@@ -124,6 +145,10 @@ function toggleWorld() {
     const shiftBtn = document.getElementById('shift-btn');
     const imgElem = document.getElementById('active-artwork');
     const artButtons = document.querySelectorAll('.art-switcher .char-btn');
+    
+    const moonIcon = document.getElementById('widget-moon-icon');
+    const widgetStatus = document.getElementById('widget-status');
+    const widgetHumidity = document.getElementById('widget-humidity');
 
     quoteElem.style.opacity = '0';
 
@@ -135,12 +160,15 @@ function toggleWorld() {
             shiftBtn.textContent = "Return to 1984";
             quoteElem.textContent = worldQuotes["1Q84"];
             
-            // Switch gallery image to park/coffee art
             imgElem.src = 'park-moons.png';
             artButtons.forEach((b, idx) => {
                 if(idx === 1) b.classList.add('active');
                 else b.classList.remove('active');
             });
+
+            moonIcon.textContent = "🌕🟢";
+            widgetStatus.innerHTML = "<strong>Sky Condition:</strong> Dual moons detected (Pale & Green).";
+            widgetHumidity.innerHTML = "<strong>Air Density:</strong> Heavy / Unstable (1.4x)";
         } else {
             body.classList.remove('world-1q84');
             body.classList.add('world-1984');
@@ -148,26 +176,20 @@ function toggleWorld() {
             shiftBtn.textContent = "Step Through the Exit";
             quoteElem.textContent = worldQuotes["1984"];
             
-            // Switch gallery image to rooftop art
             imgElem.src = 'tokyo-moons.png';
             artButtons.forEach((b, idx) => {
                 if(idx === 0) b.classList.add('active');
                 else b.classList.remove('active');
             });
+
+            moonIcon.textContent = "🌕";
+            widgetStatus.innerHTML = "<strong>Sky Condition:</strong> Ordinary dusk over Tokyo.";
+            widgetHumidity.innerHTML = "<strong>Air Density:</strong> Normal (1.0x)";
         }
         quoteElem.style.opacity = '1';
-        loadRecipe(currentRecipeKey);
         loadCharacter(currentCharKey);
         loadNote(currentNoteKey);
     }, 300);
-}
-
-let currentRecipeKey = 'spaghetti';
-function loadRecipe(dishKey) {
-    currentRecipeKey = dishKey;
-    const dish = recipes[dishKey];
-    document.getElementById('recipe-title').textContent = dish.title;
-    document.getElementById('recipe-instructions').textContent = isAlternateReality ? dish["1q84"] : dish["1984"];
 }
 
 let currentCharKey = 'aomame';
@@ -179,7 +201,7 @@ function loadCharacter(charKey) {
 }
 
 const classicalTracks = {
-    sinfonietta: { title: "Janáček — Sinfonietta", desc: "The majestic brass fanfare that opens the novel, signaling the shift into 1Q84." },
+    sinfonietta: { title: "Leoš Janáček — Sinfonietta", desc: "The majestic brass fanfare that opens the novel, signaling the shift into 1Q84." },
     goldberg: { title: "Bach — Goldberg Variations", desc: "The looping, meditative keyboard variations grounding lonely urban nights." }
 };
 
@@ -207,3 +229,98 @@ function loadNote(noteKey) {
     const note = marginaliaNotes[noteKey];
     document.getElementById('note-text').textContent = isAlternateReality ? note["1q84"] : note["1984"];
 }
+
+// Note Editor Save
+function saveNotePad() {
+    const textVal = document.getElementById('user-notepad').value;
+    localStorage.setItem('1q84_scratchpad', textVal);
+    const statusElem = document.getElementById('save-status');
+    statusElem.style.opacity = '1';
+    setTimeout(() => { statusElem.style.opacity = '0'; }, 1500);
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    const savedNote = localStorage.getItem('1q84_scratchpad');
+    if(savedNote) { document.getElementById('user-notepad').value = savedNote; }
+});
+
+// Air Chrysalis Spin Accelerator
+let spinSpeed = 6;
+function pulseChrysalis() {
+    const emoji = document.getElementById('chrysalis-emoji');
+    const caption = document.getElementById('chrysalis-status');
+    spinSpeed = Math.max(0.5, spinSpeed - 1);
+    emoji.style.animationDuration = spinSpeed + 's';
+    caption.textContent = `Spinning frequency heightened (${(6/spinSpeed).toFixed(1)}x)!`;
+}
+
+// Cipher Decoder
+function checkCipher(e) {
+    const inputVal = e.target.value.toLowerCase().trim();
+    const feedback = document.getElementById('cipher-feedback');
+    if (inputVal === "the river is moving") {
+        feedback.textContent = "SUCCESS: Transmission accepted by the Little People.";
+        feedback.style.color = "var(--accent-color-ui)";
+    } else {
+        feedback.textContent = "Hint: Atbash Cipher (A becomes Z)";
+        feedback.style.color = "";
+    }
+}
+
+// Screen Glitch & CRT Scanlines
+function triggerGlitch() {
+    const desktop = document.querySelector('.desktop');
+    desktop.classList.add('glitch-active');
+    setTimeout(() => { desktop.classList.remove('glitch-active'); }, 600);
+}
+
+function toggleScanlines() {
+    document.body.classList.toggle('scanlines');
+}
+
+// Phone Switchboard
+let phoneBuffer = "";
+function pressPhone(num) {
+    if(phoneBuffer.length < 6) {
+        phoneBuffer += num;
+        document.getElementById('phone-screen').textContent = phoneBuffer;
+    }
+}
+
+function callPhone() {
+    const status = document.getElementById('phone-status');
+    if(phoneBuffer === "1984" || phoneBuffer === "198499") {
+        status.textContent = "Connected... 'The receiver is listening from the other side.'";
+    } else {
+        status.textContent = "Busy signal. The connection cannot be completed.";
+    }
+    phoneBuffer = "";
+    setTimeout(() => { document.getElementById('phone-screen').textContent = "---"; }, 2000);
+}
+
+// Cat Companion Interactions
+const catPhrases = [
+    "Meow... Is the second moon looking at you too?",
+    "Purr... The air feels thicker tonight.",
+    "Aomame walked by this alley earlier.",
+    "Tengo is still typing upstairs. Listen closely.",
+    "Cats don't believe in absolute realities.",
+    "Zzz... Just waiting for the world to shift back."
+];
+
+let catIndex = 0;
+document.addEventListener('DOMContentLoaded', () => {
+    const catElem = document.getElementById('desktop-cat');
+    const bubbleElem = document.getElementById('cat-bubble');
+
+    if (catElem) {
+        catElem.addEventListener('click', () => {
+            catIndex = (catIndex + 1) % catPhrases.length;
+            bubbleElem.textContent = catPhrases[catIndex];
+            bubbleElem.style.opacity = '1';
+            
+            catElem.style.transform = 'scale(1.15)';
+            setTimeout(() => { catElem.style.transform = 'scale(1)'; }, 200);
+        });
+    }
+});
