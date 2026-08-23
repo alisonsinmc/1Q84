@@ -442,8 +442,8 @@
             </div>
         </div>
 
-        <!-- 16. 3-Strip Photobooth Window (Visible on Desktop) -->
-        <div id="photobooth-win" class="ui-window" style="top: 90px; left: 850px;" onmousedown="bringToFront(this)">
+        <!-- 16. 3-Strip Photobooth Window (Webcam & Background Picker) -->
+        <div id="photobooth-win" class="ui-window" style="top: 90px; left: 820px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
                 <span class="window-title">Photobooth.exe</span>
                 <div class="window-controls">
@@ -452,11 +452,25 @@
                 </div>
             </div>
             <div class="window-content" style="text-align: center;">
-                <div class="world-status-tag">Active Reality: 1984</div>
                 <h2>1Q84 Photobooth</h2>
-                <p class="section-subtitle">Capture 3 frames in the alternate reality.</p>
+                <p class="section-subtitle">Choose your backdrop and strike 3 poses.</p>
                 
-                <div id="photobooth-strip" class="photo-strip">
+                <!-- Live Webcam Preview -->
+                <div class="booth-preview-container">
+                    <video id="booth-webcam" autoplay playsinline muted></video>
+                </div>
+
+                <!-- Background Selector -->
+                <div class="booth-settings">
+                    <label style="font-size: 0.75rem;">Strip Background:</label>
+                    <select id="booth-bg-select" class="retro-input" style="margin-top: 4px;">
+                        <option value="tokyo-moons.png">Tokyo Rooftops (tokyo-moons.png)</option>
+                        <option value="park-moons.png">Park & Coffee (park-moons.png)</option>
+                    </select>
+                </div>
+
+                <!-- 3-Strip Result Preview -->
+                <div id="photobooth-strip" class="photo-strip" style="background-image: url('tokyo-moons.png');">
                     <div class="photo-frame" id="frame-1"><span>Frame 1</span></div>
                     <div class="photo-frame" id="frame-2"><span>Frame 2</span></div>
                     <div class="photo-frame" id="frame-3"><span>Frame 3</span></div>
