@@ -131,7 +131,7 @@ h2 { font-size: 1.1rem; text-transform: uppercase; margin-bottom: 8px; color: va
 body.world-1q84 .window-portrait { filter: hue-rotate(90deg) brightness(0.85); }
 .char-card p { font-size: 0.85rem; line-height: 1.5; }
 
-/* Little People Radar Styling & Image Integration */
+/* Little People Radar Styling */
 .lp-image-frame {
     width: 100%; height: 130px; margin-bottom: 10px; background: #000;
     border: 1px inset var(--ui-window-border); overflow: hidden; position: relative; animation: fadeInImage 0.5s ease forwards;
@@ -156,7 +156,42 @@ body.world-1q84 .window-portrait { filter: hue-rotate(90deg) brightness(0.85); }
 .radar-blip.detected { opacity: 1; animation: blipPulse 1.5s ease-in-out infinite; }
 @keyframes blipPulse { 0%, 100% { transform: scale(1); opacity: 0.6; } 50% { transform: scale(1.6); opacity: 1; } }
 
-/* Midnight Kitchen Recipe Grid & Book Flip Styles (Transparent Backgrounds) */
+/* 3-Strip Photobooth Styling */
+.photo-strip {
+    width: 130px;
+    margin: 0 auto 10px auto;
+    background: #fff;
+    border: 2px solid #222;
+    padding: 6px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    box-shadow: 3px 3px 10px rgba(0,0,0,0.5);
+}
+.photo-frame {
+    width: 100%;
+    height: 70px;
+    background-size: cover;
+    background-position: center;
+    background-color: #111;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 0.6rem;
+    border: 1px solid #ccc;
+    position: relative;
+    overflow: hidden;
+}
+.booth-timer-display {
+    font-family: 'Courier New', monospace;
+    font-size: 1rem;
+    font-weight: bold;
+    color: var(--accent-color-ui);
+    margin-bottom: 6px;
+}
+
+/* Midnight Kitchen Recipe Grid & Transparent Frames */
 .recipe-grid {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
