@@ -9,6 +9,13 @@
 </head>
 <body class="world-1984">
 
+    <!-- Book Cover Opening Intro Overlay -->
+    <div id="book-intro" class="book-cover">
+        <div class="book-page-cover">
+            <button id="open-book-btn" onclick="openBook()">Open the Book & Step Inside</button>
+        </div>
+    </div>
+
     <!-- Background Wallpaper Layer -->
     <div class="pixel-background"></div>
 
@@ -58,6 +65,38 @@
                 <span class="icon-symbol">💬</span>
                 <span class="icon-text">Air_Chrysalis.quote</span>
             </div>
+            <div class="desktop-icon" onclick="openWindow('editor-win')">
+                <span class="icon-symbol">📋</span>
+                <span class="icon-text">Note_Editor.exe</span>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('widget-win')">
+                <span class="icon-symbol">🌕</span>
+                <span class="icon-text">Moon_Widget.exe</span>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('chrysalis-win')">
+                <span class="icon-symbol">🌀</span>
+                <span class="icon-text">Air_Chrysalis.ani</span>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('cipher-win')">
+                <span class="icon-symbol">🔏</span>
+                <span class="icon-text">Cipher.exe</span>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('glitch-win')">
+                <span class="icon-symbol">⚡</span>
+                <span class="icon-text">Glitch.exe</span>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('gazette-win')">
+                <span class="icon-symbol">📰</span>
+                <span class="icon-text">Tokyo_Gazette</span>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('manuscript-win')">
+                <span class="icon-symbol">📖</span>
+                <span class="icon-text">Manuscript.pdf</span>
+            </div>
+            <div class="desktop-icon" onclick="openWindow('phone-win')">
+                <span class="icon-symbol">📞</span>
+                <span class="icon-text">Hotel_Phone.exe</span>
+            </div>
         </div>
 
         <!-- ==========================================
@@ -65,7 +104,7 @@
              ========================================== -->
 
         <!-- 1. Artwork Gallery Window -->
-        <div id="art-win" class="ui-window active-win" style="top: 50px; left: 120px;" onmousedown="bringToFront(this)">
+        <div id="art-win" class="ui-window active-win" style="top: 50px; left: 110px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
                 <span class="window-title">Gallery: Tokyo_ & _Moons.png</span>
                 <div class="window-controls">
@@ -86,8 +125,8 @@
             </div>
         </div>
 
-        <!-- 2. Midnight Kitchen Window -->
-        <div id="kitchen-win" class="ui-window" style="top: 80px; left: 490px;" onmousedown="bringToFront(this)">
+        <!-- 2. Midnight Kitchen Window (Book-Flip Style) -->
+        <div id="kitchen-win" class="ui-window" style="top: 70px; left: 470px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
                 <span class="window-title">Reminder: Midnight_Kitchen.txt</span>
                 <div class="window-controls">
@@ -97,30 +136,40 @@
             </div>
             <div class="window-content">
                 <h2>Food as Ritual</h2>
-                <p class="section-subtitle">Click a notebook sketch to inspect the recipe.</p>
-                <div class="recipe-grid">
-                    <div class="recipe-card" onclick="loadRecipe('spaghetti')">
+                <p class="section-subtitle">Click a recipe card to flip open the book.</p>
+                
+                <div id="recipe-select-view" class="recipe-grid">
+                    <div class="recipe-card" onclick="openRecipeBook('spaghetti')">
                         <div class="sketch-frame"><span class="ascii-art">~[ 🍝 ]~</span></div>
                         <h3>Spaghetti</h3>
                     </div>
-                    <div class="recipe-card" onclick="loadRecipe('whiskey')">
+                    <div class="recipe-card" onclick="openRecipeBook('whiskey')">
                         <div class="sketch-frame"><span class="ascii-art">[ 🥃 ]</span></div>
                         <h3>Cutty Sark</h3>
                     </div>
-                    <div class="recipe-card" onclick="loadRecipe('sandwich')">
+                    <div class="recipe-card" onclick="openRecipeBook('sandwich')">
                         <div class="sketch-frame"><span class="ascii-art">&lt;[ 🥪 ]&gt;</span></div>
                         <h3>Sandwich</h3>
                     </div>
                 </div>
-                <div id="recipe-display" class="recipe-box">
-                    <h4 id="recipe-title">Select a sketch above...</h4>
-                    <p id="recipe-instructions">Cooking is a physical act. It grounds you.</p>
+
+                <div id="recipe-book-view" class="recipe-book-page hidden">
+                    <button class="back-to-menu" onclick="closeRecipeBook()">← Back to Index</button>
+                    <div class="recipe-book-inner">
+                        <div class="recipe-image-frame">
+                            <span id="recipe-book-art" class="recipe-art-ascii">🍝</span>
+                        </div>
+                        <div class="recipe-text-content">
+                            <h3 id="recipe-book-title">Recipe Title</h3>
+                            <p id="recipe-book-desc">Recipe instructions...</p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- 3. Character Dossier Window -->
-        <div id="dossier-win" class="ui-window" style="top: 360px; left: 120px;" onmousedown="bringToFront(this)">
+        <div id="dossier-win" class="ui-window" style="top: 350px; left: 110px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
                 <span class="window-title">Dossier: Character_Database</span>
                 <div class="window-controls">
@@ -141,7 +190,7 @@
         </div>
 
         <!-- 4. Classical Music Player Window -->
-        <div id="music-win" class="ui-window" style="top: 380px; left: 490px;" onmousedown="bringToFront(this)">
+        <div id="music-win" class="ui-window" style="top: 360px; left: 470px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
                 <span class="window-title">Player: Classical_Repertoire</span>
                 <div class="window-controls">
@@ -167,7 +216,7 @@
         </div>
 
         <!-- 5. Little People Window -->
-        <div id="entity-win" class="ui-window" style="top: 100px; left: 860px;" onmousedown="bringToFront(this)">
+        <div id="entity-win" class="ui-window" style="top: 60px; left: 830px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
                 <span class="window-title">System Log: Unknown_Entity.log</span>
                 <div class="window-controls">
@@ -185,7 +234,7 @@
         </div>
 
         <!-- 6. Reader Marginalia Window -->
-        <div id="notes-win" class="ui-window" style="top: 300px; left: 860px;" onmousedown="bringToFront(this)">
+        <div id="notes-win" class="ui-window" style="top: 260px; left: 830px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
                 <span class="window-title">Notepad: Reader_Marginalia.doc</span>
                 <div class="window-controls">
@@ -207,7 +256,7 @@
         </div>
 
         <!-- 7. Quotes Window -->
-        <div id="quotes-win" class="ui-window" style="top: 500px; left: 860px;" onmousedown="bringToFront(this)">
+        <div id="quotes-win" class="ui-window" style="top: 460px; left: 830px;" onmousedown="bringToFront(this)">
             <div class="window-header" onmousedown="startDrag(event, this)">
                 <span class="window-title">Air_Chrysalis.quote</span>
                 <div class="window-controls">
@@ -221,6 +270,185 @@
                     "In this world, sincerity can sometimes save people..."
                 </blockquote>
             </div>
+        </div>
+
+        <!-- 8. Note Editor Window -->
+        <div id="editor-win" class="ui-window" style="top: 520px; left: 110px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Note_Editor.exe — Manuscript Draft</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('editor-win')">_</button>
+                    <button onclick="closeWindow('editor-win')">X</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <h2>Scratchpad</h2>
+                <p class="section-subtitle">Type your private thoughts or notes below.</p>
+                <textarea id="user-notepad" class="retro-textarea" placeholder="Write something into the silence..."></textarea>
+                <div class="editor-actions">
+                    <button class="char-btn" onclick="saveNotePad()">Save Local</button>
+                    <span id="save-status" class="save-status">Saved</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 9. Moon Phase & Weather Widget Window -->
+        <div id="widget-win" class="ui-window" style="top: 540px; left: 470px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Moon_Widget.exe — Sky Scanner</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('widget-win')">_</button>
+                    <button onclick="closeWindow('widget-win')">X</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <h2>Atmosphere Monitor</h2>
+                <div class="widget-display">
+                    <div class="moon-icon-box" id="widget-moon-icon">🌕</div>
+                    <div class="widget-info">
+                        <p id="widget-status"><strong>Sky Condition:</strong> Ordinary dusk over Tokyo.</p>
+                        <p id="widget-humidity"><strong>Air Density:</strong> Normal (1.0x)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 10. Air Chrysalis Spinning Window -->
+        <div id="chrysalis-win" class="ui-window" style="top: 180px; left: 1180px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Air_Chrysalis.ani</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('chrysalis-win')">_</button>
+                    <button onclick="closeWindow('chrysalis-win')">X</button>
+                </div>
+            </div>
+            <div class="window-content" style="text-align: center;">
+                <h2>The Cocoon</h2>
+                <p class="section-subtitle">Spinning in absolute silence.</p>
+                <div class="chrysalis-sphere" onclick="pulseChrysalis()">
+                    <span id="chrysalis-emoji">🧶</span>
+                </div>
+                <p id="chrysalis-status" class="chrysalis-caption">Click to accelerate the spinning fibers.</p>
+            </div>
+        </div>
+
+        <!-- 11. Cipher Decoder Window -->
+        <div id="cipher-win" class="ui-window" style="top: 60px; left: 1180px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Cipher_Decoder.exe</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('cipher-win')">_</button>
+                    <button onclick="closeWindow('cipher-win')">X</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <h2>Little People Cipher</h2>
+                <p class="section-subtitle">Decrypt scrambled transmissions.</p>
+                <div class="cipher-box">
+                    <p id="encrypted-text">Gsv rmwvi rh nznrmt.</p>
+                </div>
+                <input type="text" id="cipher-input" class="retro-input" placeholder="Type decoded message..." onkeyup="checkCipher(event)">
+                <p id="cipher-feedback" class="cipher-hint">Hint: Atbash Cipher (A becomes Z)</p>
+            </div>
+        </div>
+
+        <!-- 12. Screen Glitch / World Customizer Window -->
+        <div id="glitch-win" class="ui-window" style="top: 380px; left: 1180px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Geometry_Customizer.exe</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('glitch-win')">_</button>
+                    <button onclick="closeWindow('glitch-win')">X</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <h2>Reality Alteration</h2>
+                <p class="section-subtitle">Manipulate the alternate dimension.</p>
+                <div class="glitch-controls">
+                    <button class="char-btn" onclick="triggerGlitch()">Trigger Terminal Glitch</button>
+                    <button class="char-btn" onclick="toggleScanlines()">Toggle CRT Scanlines</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- 13. NEW: Tokyo Gazette News Window -->
+        <div id="gazette-win" class="ui-window" style="top: 100px; left: 1500px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Tokyo_Gazette.exe — Headlines</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('gazette-win')">_</button>
+                    <button onclick="closeWindow('gazette-win')">X</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <h2>Daily News Clippings</h2>
+                <div class="gazette-feed">
+                    <article class="gazette-article">
+                        <h4>Bizarre Cult Activity Reported in Setagaya Ward</h4>
+                        <p>Authorities note unusual gatherings surrounding a secretive religious organization known as the Leading Group...</p>
+                    </article>
+                    <article class="gazette-article">
+                        <h4>Unexplained Atmospheric Anomalies Over Expressways</h4>
+                        <p>Commuters report strange distortions and altered travel times near emergency stairwells on the Shuto Expressway...</p>
+                    </article>
+                </div>
+            </div>
+        </div>
+
+        <!-- 14. NEW: Manuscript Reader Window -->
+        <div id="manuscript-win" class="ui-window" style="top: 340px; left: 1500px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Air_Chrysalis_Draft.pdf</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('manuscript-win')">_</button>
+                    <button onclick="closeWindow('manuscript-win')">X</button>
+                </div>
+            </div>
+            <div class="window-content">
+                <h2>Dictation Excerpt</h2>
+                <div class="manuscript-viewer">
+                    <p><em>"In the depths of the forest, the chrysalis is spun by invisible hands. No one enters unless invited by the Little People..."</em></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 15. NEW: Hotel Room Telephone Switchboard Window -->
+        <div id="phone-win" class="ui-window" style="top: 540px; left: 1180px;" onmousedown="bringToFront(this)">
+            <div class="window-header" onmousedown="startDrag(event, this)">
+                <span class="window-title">Hotel_Phone.exe</span>
+                <div class="window-controls">
+                    <button onclick="minimizeWindow('phone-win')">_</button>
+                    <button onclick="closeWindow('phone-win')">X</button>
+                </div>
+            </div>
+            <div class="window-content" style="text-align: center;">
+                <h2>Aomame's Switchboard</h2>
+                <p class="section-subtitle">Dial a destination number.</p>
+                <div class="phone-display">
+                    <span id="phone-screen">---</span>
+                </div>
+                <div class="phone-keypad">
+                    <button class="phone-btn" onclick="pressPhone('1')">1</button>
+                    <button class="phone-btn" onclick="pressPhone('2')">2</button>
+                    <button class="phone-btn" onclick="pressPhone('3')">3</button>
+                    <button class="phone-btn" onclick="pressPhone('4')">4</button>
+                    <button class="phone-btn" onclick="pressPhone('5')">5</button>
+                    <button class="phone-btn" onclick="pressPhone('6')">6</button>
+                    <button class="phone-btn" onclick="pressPhone('7')">7</button>
+                    <button class="phone-btn" onclick="pressPhone('8')">8</button>
+                    <button class="phone-btn" onclick="pressPhone('9')">9</button>
+                    <button class="phone-btn" onclick="pressPhone('*')">*</button>
+                    <button class="phone-btn" onclick="pressPhone('0')">0</button>
+                    <button class="phone-btn" onclick="callPhone()">CALL</button>
+                </div>
+                <p id="phone-status" class="phone-msg">Receiver is resting.</p>
+            </div>
+        </div>
+
+        <!-- Pixel Cat Companion -->
+        <div class="desktop-cat" id="desktop-cat" title="A mysterious cat is watching you...">
+            <span class="cat-sprite">🐈‍⬛</span>
+            <div class="cat-bubble" id="cat-bubble">Meow...</div>
         </div>
 
     </div><!-- End Desktop -->
