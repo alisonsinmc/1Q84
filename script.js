@@ -65,7 +65,7 @@ function switchArt(artType, btnElem) {
     }
 }
 
-// Recipe Book Flip Logic
+// Recipe Book Flip Logic with Glowing Highlights
 const recipeData = {
     spaghetti: {
         title: "Aomame's Midnight Spaghetti",
@@ -96,7 +96,13 @@ function openRecipeBook(dishKey) {
 
     document.getElementById('recipe-book-art').textContent = dish.ascii;
     document.getElementById('recipe-book-title').textContent = dish.title;
-    document.getElementById('recipe-book-desc').textContent = isAlternateReality ? dish["1q84"] : dish["1984"];
+    
+    const rawText = isAlternateReality ? dish["1q84"] : dish["1984"];
+    const formattedText = isAlternateReality 
+        ? rawText.replace("second green moon", "<span class='altered-keyword'>second green moon</span>").replace("silence", "<span class='altered-keyword'>silence</span>")
+        : rawText;
+    
+    document.getElementById('recipe-book-desc').innerHTML = formattedText;
 }
 
 function closeRecipeBook() {
@@ -137,6 +143,19 @@ const marginaliaNotes = {
     }
 };
 
+// Toast Notification
+function showShiftToast() {
+    let toast = document.getElementById('shift-toast');
+    if (!toast) {
+        toast = document.createElement('div');
+        toast.id = 'shift-toast';
+        document.body.appendChild(toast);
+    }
+    toast.textContent = isAlternateReality ? "⚡ Shifted to 1Q84: Two moons govern this realm." : "⚡ Returned to 1984: The ordinary world.";
+    toast.classList.add('show-toast');
+    setTimeout(() => { toast.classList.remove('show-toast'); }, 2500);
+}
+
 function toggleWorld() {
     isAlternateReality = !isAlternateReality;
     const body = document.body;
@@ -151,6 +170,13 @@ function toggleWorld() {
     const widgetHumidity = document.getElementById('widget-humidity');
 
     quoteElem.style.opacity = '0';
+    showShiftToast();
+
+    // Update active reality status tags across open window headers
+    const statusTags = document.querySelectorAll('.world-status-tag');
+    statusTags.forEach(tag => {
+        tag.textContent = isAlternateReality ? "Active Reality: 1Q84" : "Active Reality: 1984";
+    });
 
     setTimeout(() => {
         if (isAlternateReality) {
@@ -167,7 +193,7 @@ function toggleWorld() {
             });
 
             moonIcon.textContent = "🌕🟢";
-            widgetStatus.innerHTML = "<strong>Sky Condition:</strong> Dual moons detected (Pale & Green).";
+            widgetStatus.innerHTML = "<strong>Sky Condition:</strong> Dual <span class='altered-keyword'>moons</span> detected.";
             widgetHumidity.innerHTML = "<strong>Air Density:</strong> Heavy / Unstable (1.4x)";
         } else {
             body.classList.remove('world-1q84');
@@ -244,7 +270,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if(savedNote) { document.getElementById('user-notepad').value = savedNote; }
 });
 
-// Air Chrysalis Spin Accelerator
+// Chrysalis Spin
 let spinSpeed = 6;
 function pulseChrysalis() {
     const emoji = document.getElementById('chrysalis-emoji');
@@ -254,7 +280,7 @@ function pulseChrysalis() {
     caption.textContent = `Spinning frequency heightened (${(6/spinSpeed).toFixed(1)}x)!`;
 }
 
-// Cipher Decoder
+// Cipher
 function checkCipher(e) {
     const inputVal = e.target.value.toLowerCase().trim();
     const feedback = document.getElementById('cipher-feedback');
@@ -267,7 +293,7 @@ function checkCipher(e) {
     }
 }
 
-// Screen Glitch & CRT Scanlines
+// Glitch & CRT
 function triggerGlitch() {
     const desktop = document.querySelector('.desktop');
     desktop.classList.add('glitch-active');
@@ -278,7 +304,7 @@ function toggleScanlines() {
     document.body.classList.toggle('scanlines');
 }
 
-// Phone Switchboard
+// Phone
 let phoneBuffer = "";
 function pressPhone(num) {
     if(phoneBuffer.length < 6) {
@@ -298,7 +324,7 @@ function callPhone() {
     setTimeout(() => { document.getElementById('phone-screen').textContent = "---"; }, 2000);
 }
 
-// Cat Companion Interactions
+// Cat
 const catPhrases = [
     "Meow... Is the second moon looking at you too?",
     "Purr... The air feels thicker tonight.",
